@@ -15,6 +15,7 @@ namespace WinForms {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace System::Threading;
+	using namespace System::Diagnostics;
 	using namespace std;
 
 	/// <summary>
@@ -26,11 +27,18 @@ namespace WinForms {
 		Bitmap^ bitmapa;
 		Bitmap^ bitmapaPoPrzejsciach;
 
+		Stopwatch timer;
 		array<int>^ tabRED = gcnew array<int>(256);
 		array<int>^ tabGREEN = gcnew array<int>(256);
 		array<int>^ tabBLUE = gcnew array<int>(256);
 	private: System::Windows::Forms::Label^  L_InfoHistogram;
 	private: System::Windows::Forms::Button^  BTN_ZapiszPlik;
+	private: System::Windows::Forms::Label^  L_CzasPracyHistogramy;
+	private: System::Windows::Forms::Label^  L_CzasPracyCpp;
+	private: System::Windows::Forms::Label^  L_CzasPracyASM;
+	private: System::Windows::Forms::Label^  L_CzasHistogramów;
+	private: System::Windows::Forms::Label^  L_CzasCpp;
+	private: System::Windows::Forms::Label^  L_CzasASM;
 
 	private: System::Windows::Forms::Button^  BTN_WygenerujHistogramy;
 	public:
@@ -87,7 +95,7 @@ namespace WinForms {
 	private: System::Windows::Forms::Button^  BTN_HistogramCzerwony;
 
 	private: System::Windows::Forms::GroupBox^  G_CzasPracy;
-	private: System::Windows::Forms::ProgressBar^  PB_CzasPracy;
+
 
 
 
@@ -136,9 +144,14 @@ namespace WinForms {
 			this->L_HistogramCzerwony = (gcnew System::Windows::Forms::Label());
 			this->BTN_HistogramCzerwony = (gcnew System::Windows::Forms::Button());
 			this->G_CzasPracy = (gcnew System::Windows::Forms::GroupBox());
-			this->PB_CzasPracy = (gcnew System::Windows::Forms::ProgressBar());
 			this->BTN_WygenerujHistogramy = (gcnew System::Windows::Forms::Button());
 			this->BTN_ZapiszPlik = (gcnew System::Windows::Forms::Button());
+			this->L_CzasASM = (gcnew System::Windows::Forms::Label());
+			this->L_CzasCpp = (gcnew System::Windows::Forms::Label());
+			this->L_CzasHistogramów = (gcnew System::Windows::Forms::Label());
+			this->L_CzasPracyASM = (gcnew System::Windows::Forms::Label());
+			this->L_CzasPracyCpp = (gcnew System::Windows::Forms::Label());
+			this->L_CzasPracyHistogramy = (gcnew System::Windows::Forms::Label());
 			this->G_InfoPlik->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->B_PrzedEdycja))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->B_PoEdycji))->BeginInit();
@@ -150,8 +163,8 @@ namespace WinForms {
 			// 
 			// OtwarciePliku
 			// 
-			this->OtwarciePliku->Filter = L"Bitmapy (#.bmp)|*.bmp";
-			this->OtwarciePliku->InitialDirectory = L"c:\\Desktop";
+			this->OtwarciePliku->Filter = L"Bitmapy (#.bmp)|*.bmp|Wszystkie typy (#.*)|*.*";
+			this->OtwarciePliku->InitialDirectory = L"C:\\Desktop";
 			// 
 			// BTN_OtworzPlik
 			// 
@@ -170,8 +183,8 @@ namespace WinForms {
 			// 
 			// ZapisaniePliku
 			// 
-			this->ZapisaniePliku->Filter = L"Bitmapy (#.bmp)|*.bmp";
-			this->ZapisaniePliku->InitialDirectory = L"c:\\Desktop";
+			this->ZapisaniePliku->Filter = L"Bitmapa (*.bmp)|*.bmp";
+			this->ZapisaniePliku->InitialDirectory = L"C:\\Desktop";
 			// 
 			// BTN_ZamknijProgram
 			// 
@@ -480,28 +493,22 @@ namespace WinForms {
 			// 
 			// G_CzasPracy
 			// 
-			this->G_CzasPracy->Controls->Add(this->PB_CzasPracy);
+			this->G_CzasPracy->Controls->Add(this->L_CzasPracyHistogramy);
+			this->G_CzasPracy->Controls->Add(this->L_CzasPracyCpp);
+			this->G_CzasPracy->Controls->Add(this->L_CzasPracyASM);
+			this->G_CzasPracy->Controls->Add(this->L_CzasHistogramów);
+			this->G_CzasPracy->Controls->Add(this->L_CzasCpp);
+			this->G_CzasPracy->Controls->Add(this->L_CzasASM);
 			this->G_CzasPracy->ForeColor = System::Drawing::Color::Silver;
-			this->G_CzasPracy->Location = System::Drawing::Point(17, 267);
+			this->G_CzasPracy->Location = System::Drawing::Point(17, 254);
 			this->G_CzasPracy->Margin = System::Windows::Forms::Padding(2);
 			this->G_CzasPracy->Name = L"G_CzasPracy";
 			this->G_CzasPracy->Padding = System::Windows::Forms::Padding(2);
-			this->G_CzasPracy->Size = System::Drawing::Size(223, 81);
+			this->G_CzasPracy->Size = System::Drawing::Size(223, 94);
 			this->G_CzasPracy->TabIndex = 19;
 			this->G_CzasPracy->TabStop = false;
 			this->G_CzasPracy->Text = L"Czas pracy:";
 			this->G_CzasPracy->Enter += gcnew System::EventHandler(this, &MyForm::G_CzasPracy_Enter);
-			// 
-			// PB_CzasPracy
-			// 
-			this->PB_CzasPracy->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
-				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			this->PB_CzasPracy->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->PB_CzasPracy->Location = System::Drawing::Point(20, 32);
-			this->PB_CzasPracy->Margin = System::Windows::Forms::Padding(2);
-			this->PB_CzasPracy->Name = L"PB_CzasPracy";
-			this->PB_CzasPracy->Size = System::Drawing::Size(181, 19);
-			this->PB_CzasPracy->TabIndex = 0;
 			// 
 			// BTN_WygenerujHistogramy
 			// 
@@ -533,6 +540,57 @@ namespace WinForms {
 			this->BTN_ZapiszPlik->Text = L"Zapisz";
 			this->BTN_ZapiszPlik->UseVisualStyleBackColor = false;
 			this->BTN_ZapiszPlik->Click += gcnew System::EventHandler(this, &MyForm::BTN_ZapiszPlik_Click);
+			// 
+			// L_CzasASM
+			// 
+			this->L_CzasASM->AutoSize = true;
+			this->L_CzasASM->Location = System::Drawing::Point(17, 15);
+			this->L_CzasASM->Name = L"L_CzasASM";
+			this->L_CzasASM->Size = System::Drawing::Size(53, 13);
+			this->L_CzasASM->TabIndex = 0;
+			this->L_CzasASM->Text = L"Asembler:";
+			// 
+			// L_CzasCpp
+			// 
+			this->L_CzasCpp->AutoSize = true;
+			this->L_CzasCpp->Location = System::Drawing::Point(17, 39);
+			this->L_CzasCpp->Name = L"L_CzasCpp";
+			this->L_CzasCpp->Size = System::Drawing::Size(29, 13);
+			this->L_CzasCpp->TabIndex = 1;
+			this->L_CzasCpp->Text = L"C++:";
+			// 
+			// L_CzasHistogramów
+			// 
+			this->L_CzasHistogramów->AutoSize = true;
+			this->L_CzasHistogramów->Location = System::Drawing::Point(17, 63);
+			this->L_CzasHistogramów->Name = L"L_CzasHistogramów";
+			this->L_CzasHistogramów->Size = System::Drawing::Size(62, 13);
+			this->L_CzasHistogramów->TabIndex = 2;
+			this->L_CzasHistogramów->Text = L"Histogramy:";
+			// 
+			// L_CzasPracyASM
+			// 
+			this->L_CzasPracyASM->AutoSize = true;
+			this->L_CzasPracyASM->Location = System::Drawing::Point(89, 15);
+			this->L_CzasPracyASM->Name = L"L_CzasPracyASM";
+			this->L_CzasPracyASM->Size = System::Drawing::Size(0, 13);
+			this->L_CzasPracyASM->TabIndex = 3;
+			// 
+			// L_CzasPracyCpp
+			// 
+			this->L_CzasPracyCpp->AutoSize = true;
+			this->L_CzasPracyCpp->Location = System::Drawing::Point(89, 39);
+			this->L_CzasPracyCpp->Name = L"L_CzasPracyCpp";
+			this->L_CzasPracyCpp->Size = System::Drawing::Size(0, 13);
+			this->L_CzasPracyCpp->TabIndex = 4;
+			// 
+			// L_CzasPracyHistogramy
+			// 
+			this->L_CzasPracyHistogramy->AutoSize = true;
+			this->L_CzasPracyHistogramy->Location = System::Drawing::Point(89, 63);
+			this->L_CzasPracyHistogramy->Name = L"L_CzasPracyHistogramy";
+			this->L_CzasPracyHistogramy->Size = System::Drawing::Size(0, 13);
+			this->L_CzasPracyHistogramy->TabIndex = 5;
 			// 
 			// MyForm
 			// 
@@ -572,6 +630,7 @@ namespace WinForms {
 			this->G_Histogramy->ResumeLayout(false);
 			this->G_Histogramy->PerformLayout();
 			this->G_CzasPracy->ResumeLayout(false);
+			this->G_CzasPracy->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -604,7 +663,7 @@ namespace WinForms {
 
 			catch(...)
 			{
-				System::Windows::Forms::MessageBox::Show(L"Nie mo¿na otworzyæ pliku.");
+				System::Windows::Forms::MessageBox::Show(L"Nie mo¿na otworzyæ pliku.", L"Error!");
 				L_InfoPlikStan->Text = L"Wybierz ponownie inny plik.";
 			}
 		}
@@ -637,30 +696,37 @@ namespace WinForms {
 	{
 		try
 		{
-			String^ getText = DDL_WymiaryPiksela->SelectedItem->ToString();
+			timer.Reset();
+			timer.Start();
+
 			int num = DDL_WymiaryPiksela->SelectedIndex;
 			int kwadrat = (num + 1);
 
+				//Dla indeksów do 19, wartoœæ kwadratu to numer indeksu + 1
+				//Dla indeksów od 20 do 24, wartoœæ ta zale¿y od tego switch
 			switch (num)
 			{
 			case 20:
 				kwadrat = 50;
+				break;
 			case 21:
 				kwadrat = 100;
+				break;
 			case 22:
 				kwadrat = 150;
+				break;
 			case 23:
 				kwadrat = 200;
+				break;
 			case 24:
 				kwadrat = 250;
+				break;
 			}
 
 			Console::WriteLine(num);
 			Console::WriteLine(kwadrat);
 
-			//System::Windows::Forms::MessageBox::Show(getText);
 			System::Windows::Forms::MessageBox::Show(L"Uruchomiono program w jêzyku C++!", L"Jêzyk programu");
-			//TODO
 		//Uruchomienie wszystkich funkcji Cpp
 			int wysokosc = bitmapaPoPrzejsciach->Height - (bitmapaPoPrzejsciach->Height % kwadrat);
 			int szerokosc = bitmapaPoPrzejsciach->Width - (bitmapaPoPrzejsciach->Width % kwadrat);
@@ -700,11 +766,17 @@ namespace WinForms {
 			}
 
 			B_PoEdycji->Image = bitmapaPoPrzejsciach;
+
+			timer.Stop();
+			TimeSpan czas = timer.Elapsed;
+			String ^format = "{0:00}:{1:00}:{2:00}.{3:00}";
+			String ^czasTrwania = System::String::Format(format, czas.Hours, czas.Minutes, czas.Seconds, czas.Milliseconds / 10);
+			L_CzasPracyCpp->Text = czasTrwania;
 		}
 
 		catch (...)
 		{
-			System::Windows::Forms::MessageBox::Show(L"W celu przekszta³cenia pliku nale¿y go najpierw otworzyæ.");
+			System::Windows::Forms::MessageBox::Show(L"W celu przekszta³cenia pliku nale¿y go najpierw otworzyæ.", L"Error!");
 		}
 	}
 
@@ -713,27 +785,34 @@ namespace WinForms {
 		System::Windows::Forms::MessageBox::Show(L"Uruchomiono program w jêzyku Asemblera!", L"Jêzyk programu");
 			//TODO
 		//Dynamiczne ³adowanie biblioteki Asm
-
-		HINSTANCE hInstLibrary = LoadLibrary(L"AsmLib");
-		MyProc1 fun;
-		if (hInstLibrary)
+		try
 		{
+			HINSTANCE hInstLibrary = LoadLibrary(L"AsmLib");
+			MyProc1 fun;
+
 			//WskaŸnik teraz wskazuje na: rzutowany typ naszego typedef, o adresie z dll'ki pod tym uchwytem, funkcji o nazwie Sum
 			fun = (MyProc1)GetProcAddress(hInstLibrary, "MyProc1");
 
-			if (fun)
-			{
-				int result = fun(7, 3);
-				Console::WriteLine(result);
-			}
+			timer.Reset();
+			timer.Start();
 
-
+			int result = fun(7, 3);
+			Console::WriteLine(result);
 
 			//Zwalnianie pamiêci po bibliotece
 			FreeLibrary(hInstLibrary);
+
+			timer.Stop();
+			TimeSpan czas = timer.Elapsed;
+			String ^format = "{0:00}:{1:00}:{2:00}.{3:00}";
+			String ^czasTrwania = System::String::Format(format, czas.Hours, czas.Minutes, czas.Seconds, (czas.Milliseconds / 10));
+			L_CzasPracyASM->Text = czasTrwania;
 		}
 
-		//Uruchomienie wszystkich funkcji Asm i Cpp
+		catch (...)
+		{
+			System::Windows::Forms::MessageBox::Show(L"B³¹d przy ³adowaniu biblioteki asemblerowej!", L"Error!");
+		}
 	}
 
 	private: System::Void BTN_HistogramCzerwony_Click(System::Object^  sender, System::EventArgs^  e)
@@ -776,6 +855,9 @@ namespace WinForms {
 		this->L_InfoHistogram->Text = L"Tworzenie histogramów";
 		try
 		{
+			timer.Reset();
+			timer.Start();
+
 			for (int i = 0; i < 256; i++)
 			{
 				tabRED[i] = 0; tabGREEN[i] = 0; tabBLUE[i] = 0;
@@ -795,11 +877,17 @@ namespace WinForms {
 					(tabRED[iRED])++; (tabGREEN[iGREEN])++; (tabBLUE[iBLUE])++;
 				}
 			}
+
+			timer.Stop();
+			TimeSpan czas = timer.Elapsed;
+			String ^format = "{0:00}:{1:00}:{2:00}.{3:00}";
+			String ^czasTrwania = System::String::Format(format, czas.Hours, czas.Minutes, czas.Seconds, (czas.Milliseconds / 10));
+			L_CzasPracyHistogramy->Text = czasTrwania;
 		}
 
 		catch (...)
 		{
-			System::Windows::Forms::MessageBox::Show(L"Nie mo¿na utworzyæ histogramów pliku.");
+			System::Windows::Forms::MessageBox::Show(L"Nie mo¿na utworzyæ histogramów pliku.", L"Error!");
 			L_InfoPlikStan->Text = L"Wybierz ponownie inny plik.";
 		}
 
@@ -818,7 +906,7 @@ namespace WinForms {
 
 			catch (...)
 			{
-				System::Windows::Forms::MessageBox::Show(L"B³¹d przy zapisie pliku!");
+				System::Windows::Forms::MessageBox::Show(L"B³¹d przy zapisie pliku!", L"Error!");
 			}
 		}
 	}
