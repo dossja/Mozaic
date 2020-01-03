@@ -362,12 +362,14 @@ namespace WinForms {
 			this->DDL_WymiaryPiksela->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(80)));
 			this->DDL_WymiaryPiksela->DisplayMember = L"1x1";
+			this->DDL_WymiaryPiksela->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->DDL_WymiaryPiksela->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->DDL_WymiaryPiksela->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
 			this->DDL_WymiaryPiksela->ForeColor = System::Drawing::Color::LightGray;
 			this->DDL_WymiaryPiksela->FormattingEnabled = true;
-			this->DDL_WymiaryPiksela->Items->AddRange(gcnew cli::array< System::Object^  >(25) {L"1x1", L"2x2", L"3x3", L"4x4", L"5x5",
+			this->DDL_WymiaryPiksela->Items->AddRange(gcnew cli::array< System::Object^  >(25) {
+				L"1x1", L"2x2", L"3x3", L"4x4", L"5x5",
 					L"6x6", L"7x7", L"8x8", L"9x9", L"10x10", L"11x11", L"12x12", L"13x13", L"14x14", L"15x15", L"16x16", L"17x17", L"18x18", L"19x19",
 					L"20x20", L"50x50", L"100x100", L"150x150", L"200x200", L"250x250"
 			});
@@ -602,7 +604,7 @@ namespace WinForms {
 
 			catch(...)
 			{
-				MessageBox::Show(L"Nie mo¿na otworzyæ pliku.");
+				System::Windows::Forms::MessageBox::Show(L"Nie mo¿na otworzyæ pliku.");
 				L_InfoPlikStan->Text = L"Wybierz ponownie inny plik.";
 			}
 		}
@@ -633,15 +635,77 @@ namespace WinForms {
 
 	private: System::Void BTN_UruchomCpp_Click(System::Object^  sender, System::EventArgs^  e) 
 	{
-		String^ getText = DDL_WymiaryPiksela->SelectedItem->ToString();
-		int kwadrat = 1;
+		try
+		{
+			String^ getText = DDL_WymiaryPiksela->SelectedItem->ToString();
+			int num = DDL_WymiaryPiksela->SelectedIndex;
+			int kwadrat = (num + 1);
 
-		if (getText == L"1x1")
-			System::Windows::Forms::MessageBox::Show(getText);
-		//System::Windows::Forms::MessageBox::Show(getText);
-		System::Windows::Forms::MessageBox::Show(L"Uruchomiono program w jêzyku C++!", L"Jêzyk programu");
+			switch (num)
+			{
+			case 20:
+				kwadrat = 50;
+			case 21:
+				kwadrat = 100;
+			case 22:
+				kwadrat = 150;
+			case 23:
+				kwadrat = 200;
+			case 24:
+				kwadrat = 250;
+			}
+
+			Console::WriteLine(num);
+			Console::WriteLine(kwadrat);
+
+			//System::Windows::Forms::MessageBox::Show(getText);
+			System::Windows::Forms::MessageBox::Show(L"Uruchomiono program w jêzyku C++!", L"Jêzyk programu");
 			//TODO
 		//Uruchomienie wszystkich funkcji Cpp
+			int wysokosc = bitmapaPoPrzejsciach->Height - (bitmapaPoPrzejsciach->Height % kwadrat);
+			int szerokosc = bitmapaPoPrzejsciach->Width - (bitmapaPoPrzejsciach->Width % kwadrat);
+
+			for (int j = 0; j < wysokosc; j = (j + kwadrat))
+			{
+				for (int i = 0; i < szerokosc; i = (i + kwadrat))
+				{
+					int sR = 0, sG = 0, sB = 0;
+					Color pikselKolor;
+
+					for (int tJ = j; tJ < j + kwadrat; tJ++)
+					{
+						for (int tI = i; tI < i + kwadrat; tI++)
+						{
+							pikselKolor = bitmapaPoPrzejsciach->GetPixel(tI, tJ);
+							sR += pikselKolor.R;
+							sG += pikselKolor.G;
+							sB += pikselKolor.B;
+						}
+					}
+
+					sR = sR / (kwadrat * kwadrat);
+					sG = sG / (kwadrat * kwadrat);
+					sB = sB / (kwadrat * kwadrat);
+
+					for (int tJ = j; tJ < j + kwadrat; tJ++)
+					{
+						for (int tI = i; tI < i + kwadrat; tI++)
+						{
+							pikselKolor.FromArgb(sR, sG, sB);
+
+							bitmapaPoPrzejsciach->SetPixel(tI, tJ, pikselKolor);
+						}
+					}
+				}
+			}
+
+			B_PoEdycji->Image = bitmapaPoPrzejsciach;
+		}
+
+		catch (...)
+		{
+			System::Windows::Forms::MessageBox::Show(L"W celu przekszta³cenia pliku nale¿y go najpierw otworzyæ.");
+		}
 	}
 
 	private: System::Void BTN_UruchomAsm_Click(System::Object^  sender, System::EventArgs^  e)
@@ -735,7 +799,7 @@ namespace WinForms {
 
 		catch (...)
 		{
-			MessageBox::Show(L"Nie mo¿na utworzyæ histogramów pliku.");
+			System::Windows::Forms::MessageBox::Show(L"Nie mo¿na utworzyæ histogramów pliku.");
 			L_InfoPlikStan->Text = L"Wybierz ponownie inny plik.";
 		}
 
