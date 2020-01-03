@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinForms", "WinForms\WinForms.vcxproj", "{B7C105C1-1729-4A95-A21E-F185C7E6347D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2F246567-AE87-4F93-8296-FBB38449CCB5} = {2F246567-AE87-4F93-8296-FBB38449CCB5}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsmLib", "AsmLib\AsmLib.vcxproj", "{2F246567-AE87-4F93-8296-FBB38449CCB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,14 @@ Global
 		{B7C105C1-1729-4A95-A21E-F185C7E6347D}.Release|x64.Build.0 = Release|x64
 		{B7C105C1-1729-4A95-A21E-F185C7E6347D}.Release|x86.ActiveCfg = Release|Win32
 		{B7C105C1-1729-4A95-A21E-F185C7E6347D}.Release|x86.Build.0 = Release|Win32
+		{2F246567-AE87-4F93-8296-FBB38449CCB5}.Debug|x64.ActiveCfg = Debug|x64
+		{2F246567-AE87-4F93-8296-FBB38449CCB5}.Debug|x64.Build.0 = Debug|x64
+		{2F246567-AE87-4F93-8296-FBB38449CCB5}.Debug|x86.ActiveCfg = Debug|Win32
+		{2F246567-AE87-4F93-8296-FBB38449CCB5}.Debug|x86.Build.0 = Debug|Win32
+		{2F246567-AE87-4F93-8296-FBB38449CCB5}.Release|x64.ActiveCfg = Release|x64
+		{2F246567-AE87-4F93-8296-FBB38449CCB5}.Release|x64.Build.0 = Release|x64
+		{2F246567-AE87-4F93-8296-FBB38449CCB5}.Release|x86.ActiveCfg = Release|Win32
+		{2F246567-AE87-4F93-8296-FBB38449CCB5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
