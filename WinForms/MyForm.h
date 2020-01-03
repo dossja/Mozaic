@@ -1,4 +1,9 @@
+#include <Windows.h>
+
 #pragma once
+
+typedef int(_stdcall *MyProc1)(int, int);
+
 #include "HistogramForm.h"
 
 namespace WinForms {
@@ -155,7 +160,7 @@ namespace WinForms {
 			this->BTN_OtworzPlik->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_OtworzPlik->ForeColor = System::Drawing::Color::Silver;
 			this->BTN_OtworzPlik->Location = System::Drawing::Point(74, 16);
-			this->BTN_OtworzPlik->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->BTN_OtworzPlik->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_OtworzPlik->Name = L"BTN_OtworzPlik";
 			this->BTN_OtworzPlik->Size = System::Drawing::Size(96, 36);
 			this->BTN_OtworzPlik->TabIndex = 0;
@@ -174,8 +179,8 @@ namespace WinForms {
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(80)));
 			this->BTN_ZamknijProgram->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_ZamknijProgram->ForeColor = System::Drawing::Color::Silver;
-			this->BTN_ZamknijProgram->Location = System::Drawing::Point(836, 453);
-			this->BTN_ZamknijProgram->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->BTN_ZamknijProgram->Location = System::Drawing::Point(1060, 595);
+			this->BTN_ZamknijProgram->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_ZamknijProgram->Name = L"BTN_ZamknijProgram";
 			this->BTN_ZamknijProgram->Size = System::Drawing::Size(96, 36);
 			this->BTN_ZamknijProgram->TabIndex = 8;
@@ -190,9 +195,9 @@ namespace WinForms {
 			this->G_InfoPlik->Controls->Add(this->L_InfoPlikStan);
 			this->G_InfoPlik->ForeColor = System::Drawing::Color::Silver;
 			this->G_InfoPlik->Location = System::Drawing::Point(14, 59);
-			this->G_InfoPlik->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->G_InfoPlik->Margin = System::Windows::Forms::Padding(2);
 			this->G_InfoPlik->Name = L"G_InfoPlik";
-			this->G_InfoPlik->Padding = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->G_InfoPlik->Padding = System::Windows::Forms::Padding(2);
 			this->G_InfoPlik->Size = System::Drawing::Size(223, 131);
 			this->G_InfoPlik->TabIndex = 5;
 			this->G_InfoPlik->TabStop = false;
@@ -237,9 +242,9 @@ namespace WinForms {
 			// 
 			this->B_PrzedEdycja->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->B_PrzedEdycja->Location = System::Drawing::Point(2, 15);
-			this->B_PrzedEdycja->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->B_PrzedEdycja->Margin = System::Windows::Forms::Padding(2);
 			this->B_PrzedEdycja->Name = L"B_PrzedEdycja";
-			this->B_PrzedEdycja->Size = System::Drawing::Size(328, 343);
+			this->B_PrzedEdycja->Size = System::Drawing::Size(416, 483);
 			this->B_PrzedEdycja->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->B_PrzedEdycja->TabIndex = 6;
 			this->B_PrzedEdycja->TabStop = false;
@@ -248,9 +253,9 @@ namespace WinForms {
 			// 
 			this->B_PoEdycji->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->B_PoEdycji->Location = System::Drawing::Point(2, 15);
-			this->B_PoEdycji->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->B_PoEdycji->Margin = System::Windows::Forms::Padding(2);
 			this->B_PoEdycji->Name = L"B_PoEdycji";
-			this->B_PoEdycji->Size = System::Drawing::Size(328, 343);
+			this->B_PoEdycji->Size = System::Drawing::Size(416, 483);
 			this->B_PoEdycji->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->B_PoEdycji->TabIndex = 7;
 			this->B_PoEdycji->TabStop = false;
@@ -262,8 +267,8 @@ namespace WinForms {
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(80)));
 			this->BTN_RestartProgramu->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_RestartProgramu->ForeColor = System::Drawing::Color::Silver;
-			this->BTN_RestartProgramu->Location = System::Drawing::Point(723, 453);
-			this->BTN_RestartProgramu->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->BTN_RestartProgramu->Location = System::Drawing::Point(947, 595);
+			this->BTN_RestartProgramu->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_RestartProgramu->Name = L"BTN_RestartProgramu";
 			this->BTN_RestartProgramu->Size = System::Drawing::Size(96, 36);
 			this->BTN_RestartProgramu->TabIndex = 9;
@@ -278,8 +283,8 @@ namespace WinForms {
 			this->BTN_UruchomCpp->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
 			this->BTN_UruchomCpp->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_UruchomCpp->ForeColor = System::Drawing::Color::Silver;
-			this->BTN_UruchomCpp->Location = System::Drawing::Point(486, 453);
-			this->BTN_UruchomCpp->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->BTN_UruchomCpp->Location = System::Drawing::Point(598, 595);
+			this->BTN_UruchomCpp->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_UruchomCpp->Name = L"BTN_UruchomCpp";
 			this->BTN_UruchomCpp->Size = System::Drawing::Size(96, 36);
 			this->BTN_UruchomCpp->TabIndex = 10;
@@ -294,8 +299,8 @@ namespace WinForms {
 			this->BTN_UruchomAsm->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
 			this->BTN_UruchomAsm->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_UruchomAsm->ForeColor = System::Drawing::Color::Silver;
-			this->BTN_UruchomAsm->Location = System::Drawing::Point(372, 453);
-			this->BTN_UruchomAsm->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->BTN_UruchomAsm->Location = System::Drawing::Point(484, 595);
+			this->BTN_UruchomAsm->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_UruchomAsm->Name = L"BTN_UruchomAsm";
 			this->BTN_UruchomAsm->Size = System::Drawing::Size(96, 36);
 			this->BTN_UruchomAsm->TabIndex = 11;
@@ -307,7 +312,7 @@ namespace WinForms {
 			// 
 			this->L_WymiaryPiksela->AutoSize = true;
 			this->L_WymiaryPiksela->ForeColor = System::Drawing::Color::Silver;
-			this->L_WymiaryPiksela->Location = System::Drawing::Point(52, 198);
+			this->L_WymiaryPiksela->Location = System::Drawing::Point(30, 212);
 			this->L_WymiaryPiksela->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->L_WymiaryPiksela->Name = L"L_WymiaryPiksela";
 			this->L_WymiaryPiksela->Size = System::Drawing::Size(86, 13);
@@ -318,11 +323,11 @@ namespace WinForms {
 			// 
 			this->G_PrzedEdycja->Controls->Add(this->B_PrzedEdycja);
 			this->G_PrzedEdycja->ForeColor = System::Drawing::Color::Silver;
-			this->G_PrzedEdycja->Location = System::Drawing::Point(250, 59);
-			this->G_PrzedEdycja->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->G_PrzedEdycja->Location = System::Drawing::Point(274, 59);
+			this->G_PrzedEdycja->Margin = System::Windows::Forms::Padding(2);
 			this->G_PrzedEdycja->Name = L"G_PrzedEdycja";
-			this->G_PrzedEdycja->Padding = System::Windows::Forms::Padding(2, 2, 2, 2);
-			this->G_PrzedEdycja->Size = System::Drawing::Size(332, 360);
+			this->G_PrzedEdycja->Padding = System::Windows::Forms::Padding(2);
+			this->G_PrzedEdycja->Size = System::Drawing::Size(420, 500);
 			this->G_PrzedEdycja->TabIndex = 14;
 			this->G_PrzedEdycja->TabStop = false;
 			this->G_PrzedEdycja->Text = L"Przed edycj¹";
@@ -332,11 +337,11 @@ namespace WinForms {
 			// 
 			this->G_PoEdycji->Controls->Add(this->B_PoEdycji);
 			this->G_PoEdycji->ForeColor = System::Drawing::Color::Silver;
-			this->G_PoEdycji->Location = System::Drawing::Point(599, 59);
-			this->G_PoEdycji->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->G_PoEdycji->Location = System::Drawing::Point(736, 59);
+			this->G_PoEdycji->Margin = System::Windows::Forms::Padding(2);
 			this->G_PoEdycji->Name = L"G_PoEdycji";
-			this->G_PoEdycji->Padding = System::Windows::Forms::Padding(2, 2, 2, 2);
-			this->G_PoEdycji->Size = System::Drawing::Size(332, 360);
+			this->G_PoEdycji->Padding = System::Windows::Forms::Padding(2);
+			this->G_PoEdycji->Size = System::Drawing::Size(420, 500);
 			this->G_PoEdycji->TabIndex = 15;
 			this->G_PoEdycji->TabStop = false;
 			this->G_PoEdycji->Text = L"Po edycji";
@@ -345,7 +350,7 @@ namespace WinForms {
 			// 
 			this->L_WybranyJezyk->AutoSize = true;
 			this->L_WybranyJezyk->ForeColor = System::Drawing::Color::Silver;
-			this->L_WybranyJezyk->Location = System::Drawing::Point(272, 453);
+			this->L_WybranyJezyk->Location = System::Drawing::Point(384, 595);
 			this->L_WybranyJezyk->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->L_WybranyJezyk->Name = L"L_WybranyJezyk";
 			this->L_WybranyJezyk->Size = System::Drawing::Size(79, 13);
@@ -362,11 +367,15 @@ namespace WinForms {
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
 			this->DDL_WymiaryPiksela->ForeColor = System::Drawing::Color::LightGray;
 			this->DDL_WymiaryPiksela->FormattingEnabled = true;
-			this->DDL_WymiaryPiksela->Items->AddRange(gcnew cli::array< System::Object^  >(5) { L"1x1", L"2x2", L"3x3", L"4x4", L"5x5" });
-			this->DDL_WymiaryPiksela->Location = System::Drawing::Point(154, 198);
-			this->DDL_WymiaryPiksela->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->DDL_WymiaryPiksela->Items->AddRange(gcnew cli::array< System::Object^  >(25) {L"1x1", L"2x2", L"3x3", L"4x4", L"5x5",
+					L"6x6", L"7x7", L"8x8", L"9x9", L"10x10", L"11x11", L"12x12", L"13x13", L"14x14", L"15x15", L"16x16", L"17x17", L"18x18", L"19x19",
+					L"20x20", L"50x50", L"100x100", L"150x150", L"200x200", L"250x250"
+			});
+			this->DDL_WymiaryPiksela->SelectedIndex = 0;
+			this->DDL_WymiaryPiksela->Location = System::Drawing::Point(140, 212);
+			this->DDL_WymiaryPiksela->Margin = System::Windows::Forms::Padding(2);
 			this->DDL_WymiaryPiksela->Name = L"DDL_WymiaryPiksela";
-			this->DDL_WymiaryPiksela->Size = System::Drawing::Size(48, 25);
+			this->DDL_WymiaryPiksela->Size = System::Drawing::Size(78, 25);
 			this->DDL_WymiaryPiksela->TabIndex = 17;
 			// 
 			// G_Histogramy
@@ -378,10 +387,10 @@ namespace WinForms {
 			this->G_Histogramy->Controls->Add(this->L_HistogramCzerwony);
 			this->G_Histogramy->Controls->Add(this->BTN_HistogramCzerwony);
 			this->G_Histogramy->ForeColor = System::Drawing::Color::Silver;
-			this->G_Histogramy->Location = System::Drawing::Point(14, 358);
-			this->G_Histogramy->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->G_Histogramy->Location = System::Drawing::Point(17, 428);
+			this->G_Histogramy->Margin = System::Windows::Forms::Padding(2);
 			this->G_Histogramy->Name = L"G_Histogramy";
-			this->G_Histogramy->Padding = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->G_Histogramy->Padding = System::Windows::Forms::Padding(2);
 			this->G_Histogramy->Size = System::Drawing::Size(223, 131);
 			this->G_Histogramy->TabIndex = 18;
 			this->G_Histogramy->TabStop = false;
@@ -395,7 +404,7 @@ namespace WinForms {
 			this->BTN_HistogramNiebieski->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_HistogramNiebieski->ForeColor = System::Drawing::Color::LightGray;
 			this->BTN_HistogramNiebieski->Location = System::Drawing::Point(130, 95);
-			this->BTN_HistogramNiebieski->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->BTN_HistogramNiebieski->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_HistogramNiebieski->Name = L"BTN_HistogramNiebieski";
 			this->BTN_HistogramNiebieski->Size = System::Drawing::Size(75, 24);
 			this->BTN_HistogramNiebieski->TabIndex = 18;
@@ -410,7 +419,7 @@ namespace WinForms {
 			this->BTN_HistogramZielony->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_HistogramZielony->ForeColor = System::Drawing::Color::LightGray;
 			this->BTN_HistogramZielony->Location = System::Drawing::Point(130, 56);
-			this->BTN_HistogramZielony->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->BTN_HistogramZielony->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_HistogramZielony->Name = L"BTN_HistogramZielony";
 			this->BTN_HistogramZielony->Size = System::Drawing::Size(75, 24);
 			this->BTN_HistogramZielony->TabIndex = 17;
@@ -459,7 +468,7 @@ namespace WinForms {
 			this->BTN_HistogramCzerwony->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_HistogramCzerwony->ForeColor = System::Drawing::Color::LightGray;
 			this->BTN_HistogramCzerwony->Location = System::Drawing::Point(130, 17);
-			this->BTN_HistogramCzerwony->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->BTN_HistogramCzerwony->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_HistogramCzerwony->Name = L"BTN_HistogramCzerwony";
 			this->BTN_HistogramCzerwony->Size = System::Drawing::Size(75, 24);
 			this->BTN_HistogramCzerwony->TabIndex = 1;
@@ -471,10 +480,10 @@ namespace WinForms {
 			// 
 			this->G_CzasPracy->Controls->Add(this->PB_CzasPracy);
 			this->G_CzasPracy->ForeColor = System::Drawing::Color::Silver;
-			this->G_CzasPracy->Location = System::Drawing::Point(14, 228);
-			this->G_CzasPracy->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->G_CzasPracy->Location = System::Drawing::Point(17, 267);
+			this->G_CzasPracy->Margin = System::Windows::Forms::Padding(2);
 			this->G_CzasPracy->Name = L"G_CzasPracy";
-			this->G_CzasPracy->Padding = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->G_CzasPracy->Padding = System::Windows::Forms::Padding(2);
 			this->G_CzasPracy->Size = System::Drawing::Size(223, 81);
 			this->G_CzasPracy->TabIndex = 19;
 			this->G_CzasPracy->TabStop = false;
@@ -487,7 +496,7 @@ namespace WinForms {
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->PB_CzasPracy->ForeColor = System::Drawing::SystemColors::ControlText;
 			this->PB_CzasPracy->Location = System::Drawing::Point(20, 32);
-			this->PB_CzasPracy->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->PB_CzasPracy->Margin = System::Windows::Forms::Padding(2);
 			this->PB_CzasPracy->Name = L"PB_CzasPracy";
 			this->PB_CzasPracy->Size = System::Drawing::Size(181, 19);
 			this->PB_CzasPracy->TabIndex = 0;
@@ -499,8 +508,8 @@ namespace WinForms {
 			this->BTN_WygenerujHistogramy->Cursor = System::Windows::Forms::Cursors::Hand;
 			this->BTN_WygenerujHistogramy->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_WygenerujHistogramy->ForeColor = System::Drawing::Color::Silver;
-			this->BTN_WygenerujHistogramy->Location = System::Drawing::Point(54, 324);
-			this->BTN_WygenerujHistogramy->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->BTN_WygenerujHistogramy->Location = System::Drawing::Point(57, 369);
+			this->BTN_WygenerujHistogramy->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_WygenerujHistogramy->Name = L"BTN_WygenerujHistogramy";
 			this->BTN_WygenerujHistogramy->Size = System::Drawing::Size(146, 24);
 			this->BTN_WygenerujHistogramy->TabIndex = 20;
@@ -514,8 +523,8 @@ namespace WinForms {
 				static_cast<System::Int32>(static_cast<System::Byte>(80)));
 			this->BTN_ZapiszPlik->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_ZapiszPlik->ForeColor = System::Drawing::Color::Silver;
-			this->BTN_ZapiszPlik->Location = System::Drawing::Point(836, 16);
-			this->BTN_ZapiszPlik->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->BTN_ZapiszPlik->Location = System::Drawing::Point(1060, 16);
+			this->BTN_ZapiszPlik->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_ZapiszPlik->Name = L"BTN_ZapiszPlik";
 			this->BTN_ZapiszPlik->Size = System::Drawing::Size(96, 36);
 			this->BTN_ZapiszPlik->TabIndex = 21;
@@ -529,7 +538,7 @@ namespace WinForms {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(8)));
-			this->ClientSize = System::Drawing::Size(964, 505);
+			this->ClientSize = System::Drawing::Size(1190, 663);
 			this->Controls->Add(this->BTN_ZapiszPlik);
 			this->Controls->Add(this->BTN_WygenerujHistogramy);
 			this->Controls->Add(this->G_CzasPracy);
@@ -547,7 +556,7 @@ namespace WinForms {
 			this->Controls->Add(this->G_PoEdycji);
 			this->ForeColor = System::Drawing::Color::DarkRed;
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
-			this->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->Margin = System::Windows::Forms::Padding(2);
 			this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"WinForms";
@@ -625,7 +634,11 @@ namespace WinForms {
 	private: System::Void BTN_UruchomCpp_Click(System::Object^  sender, System::EventArgs^  e) 
 	{
 		String^ getText = DDL_WymiaryPiksela->SelectedItem->ToString();
-		System::Windows::Forms::MessageBox::Show(getText);
+		int kwadrat = 1;
+
+		if (getText == L"1x1")
+			System::Windows::Forms::MessageBox::Show(getText);
+		//System::Windows::Forms::MessageBox::Show(getText);
 		System::Windows::Forms::MessageBox::Show(L"Uruchomiono program w jêzyku C++!", L"Jêzyk programu");
 			//TODO
 		//Uruchomienie wszystkich funkcji Cpp
@@ -637,6 +650,24 @@ namespace WinForms {
 			//TODO
 		//Dynamiczne ³adowanie biblioteki Asm
 
+		HINSTANCE hInstLibrary = LoadLibrary(L"AsmLib");
+		MyProc1 fun;
+		if (hInstLibrary)
+		{
+			//WskaŸnik teraz wskazuje na: rzutowany typ naszego typedef, o adresie z dll'ki pod tym uchwytem, funkcji o nazwie Sum
+			fun = (MyProc1)GetProcAddress(hInstLibrary, "MyProc1");
+
+			if (fun)
+			{
+				int result = fun(7, 3);
+				Console::WriteLine(result);
+			}
+
+
+
+			//Zwalnianie pamiêci po bibliotece
+			FreeLibrary(hInstLibrary);
+		}
 
 		//Uruchomienie wszystkich funkcji Asm i Cpp
 	}
