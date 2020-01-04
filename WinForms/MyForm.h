@@ -2,7 +2,7 @@
 
 #pragma once
 
-typedef int(_stdcall *MyProc1)(int, int);
+typedef int(_stdcall *Mozaika)(unsigned char* tab, int ilosc);
 
 #include "HistogramForm.h"
 
@@ -24,13 +24,21 @@ namespace WinForms {
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	public:
-		Bitmap^ bitmapa;
-		Bitmap^ bitmapaPoPrzejsciach;
+		Bitmap^ bitmapa;				//Bitmapa wejœciowa
+		Bitmap^ bitmapaPoPrzejsciach;	//Bitmapa wejœciowa po przekszta³ceniach
 
-		Stopwatch timer;
+		Stopwatch timer;				//Timer u¿ywany do obliczania czasu wykonywania operacji (stoper)
+
+		//Tablice u¿ywane do tworzenia histogramów
 		array<int>^ tabRED = gcnew array<int>(256);
 		array<int>^ tabGREEN = gcnew array<int>(256);
 		array<int>^ tabBLUE = gcnew array<int>(256);
+
+		//Tablice przechowuj¹ce wartoœci przesy³ane do funkcji asemblerowej dla poszczególnych kolorów
+		array<unsigned char>^ tablicaRED;
+		array<unsigned char>^ tablicaGREEN;
+		array<unsigned char>^ tablicaBLUE;
+
 	private: System::Windows::Forms::Label^  L_InfoHistogram;
 	private: System::Windows::Forms::Button^  BTN_ZapiszPlik;
 	private: System::Windows::Forms::Label^  L_CzasPracyHistogramy;
@@ -392,6 +400,9 @@ namespace WinForms {
 			this->DDL_WymiaryPiksela->Name = L"DDL_WymiaryPiksela";
 			this->DDL_WymiaryPiksela->Size = System::Drawing::Size(78, 25);
 			this->DDL_WymiaryPiksela->TabIndex = 17;
+
+								/*	HISTOGRAMY	*/
+
 			// 
 			// G_Histogramy
 			// 
@@ -410,59 +421,6 @@ namespace WinForms {
 			this->G_Histogramy->TabIndex = 18;
 			this->G_Histogramy->TabStop = false;
 			this->G_Histogramy->Text = L"Histogram do podgl¹du:";
-			// 
-			// BTN_HistogramNiebieski
-			// 
-			this->BTN_HistogramNiebieski->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
-				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)));
-			this->BTN_HistogramNiebieski->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->BTN_HistogramNiebieski->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->BTN_HistogramNiebieski->ForeColor = System::Drawing::Color::LightGray;
-			this->BTN_HistogramNiebieski->Location = System::Drawing::Point(130, 95);
-			this->BTN_HistogramNiebieski->Margin = System::Windows::Forms::Padding(2);
-			this->BTN_HistogramNiebieski->Name = L"BTN_HistogramNiebieski";
-			this->BTN_HistogramNiebieski->Size = System::Drawing::Size(75, 24);
-			this->BTN_HistogramNiebieski->TabIndex = 18;
-			this->BTN_HistogramNiebieski->Text = L"Podgl¹d";
-			this->BTN_HistogramNiebieski->UseVisualStyleBackColor = false;
-			this->BTN_HistogramNiebieski->Click += gcnew System::EventHandler(this, &MyForm::BTN_HistogramNiebieski_Click);
-			// 
-			// BTN_HistogramZielony
-			// 
-			this->BTN_HistogramZielony->BackColor = System::Drawing::Color::Green;
-			this->BTN_HistogramZielony->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->BTN_HistogramZielony->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->BTN_HistogramZielony->ForeColor = System::Drawing::Color::LightGray;
-			this->BTN_HistogramZielony->Location = System::Drawing::Point(130, 56);
-			this->BTN_HistogramZielony->Margin = System::Windows::Forms::Padding(2);
-			this->BTN_HistogramZielony->Name = L"BTN_HistogramZielony";
-			this->BTN_HistogramZielony->Size = System::Drawing::Size(75, 24);
-			this->BTN_HistogramZielony->TabIndex = 17;
-			this->BTN_HistogramZielony->Text = L"Podgl¹d";
-			this->BTN_HistogramZielony->UseVisualStyleBackColor = false;
-			this->BTN_HistogramZielony->Click += gcnew System::EventHandler(this, &MyForm::BTN_HistogramZielony_Click);
-			// 
-			// L_HistogramNiebieski
-			// 
-			this->L_HistogramNiebieski->AutoSize = true;
-			this->L_HistogramNiebieski->ForeColor = System::Drawing::Color::Silver;
-			this->L_HistogramNiebieski->Location = System::Drawing::Point(17, 101);
-			this->L_HistogramNiebieski->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
-			this->L_HistogramNiebieski->Name = L"L_HistogramNiebieski";
-			this->L_HistogramNiebieski->Size = System::Drawing::Size(69, 13);
-			this->L_HistogramNiebieski->TabIndex = 16;
-			this->L_HistogramNiebieski->Text = L"Niebieski (B):";
-			// 
-			// L_HistogramZielony
-			// 
-			this->L_HistogramZielony->AutoSize = true;
-			this->L_HistogramZielony->ForeColor = System::Drawing::Color::Silver;
-			this->L_HistogramZielony->Location = System::Drawing::Point(17, 62);
-			this->L_HistogramZielony->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
-			this->L_HistogramZielony->Name = L"L_HistogramZielony";
-			this->L_HistogramZielony->Size = System::Drawing::Size(61, 13);
-			this->L_HistogramZielony->TabIndex = 15;
-			this->L_HistogramZielony->Text = L"Zielony (G):";
 			// 
 			// L_HistogramCzerwony
 			// 
@@ -491,24 +449,59 @@ namespace WinForms {
 			this->BTN_HistogramCzerwony->UseVisualStyleBackColor = false;
 			this->BTN_HistogramCzerwony->Click += gcnew System::EventHandler(this, &MyForm::BTN_HistogramCzerwony_Click);
 			// 
-			// G_CzasPracy
+			// L_HistogramZielony
 			// 
-			this->G_CzasPracy->Controls->Add(this->L_CzasPracyHistogramy);
-			this->G_CzasPracy->Controls->Add(this->L_CzasPracyCpp);
-			this->G_CzasPracy->Controls->Add(this->L_CzasPracyASM);
-			this->G_CzasPracy->Controls->Add(this->L_CzasHistogramów);
-			this->G_CzasPracy->Controls->Add(this->L_CzasCpp);
-			this->G_CzasPracy->Controls->Add(this->L_CzasASM);
-			this->G_CzasPracy->ForeColor = System::Drawing::Color::Silver;
-			this->G_CzasPracy->Location = System::Drawing::Point(17, 254);
-			this->G_CzasPracy->Margin = System::Windows::Forms::Padding(2);
-			this->G_CzasPracy->Name = L"G_CzasPracy";
-			this->G_CzasPracy->Padding = System::Windows::Forms::Padding(2);
-			this->G_CzasPracy->Size = System::Drawing::Size(223, 94);
-			this->G_CzasPracy->TabIndex = 19;
-			this->G_CzasPracy->TabStop = false;
-			this->G_CzasPracy->Text = L"Czas pracy:";
-			this->G_CzasPracy->Enter += gcnew System::EventHandler(this, &MyForm::G_CzasPracy_Enter);
+			this->L_HistogramZielony->AutoSize = true;
+			this->L_HistogramZielony->ForeColor = System::Drawing::Color::Silver;
+			this->L_HistogramZielony->Location = System::Drawing::Point(17, 62);
+			this->L_HistogramZielony->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->L_HistogramZielony->Name = L"L_HistogramZielony";
+			this->L_HistogramZielony->Size = System::Drawing::Size(61, 13);
+			this->L_HistogramZielony->TabIndex = 15;
+			this->L_HistogramZielony->Text = L"Zielony (G):";
+			// 
+			// BTN_HistogramZielony
+			// 
+			this->BTN_HistogramZielony->BackColor = System::Drawing::Color::Green;
+			this->BTN_HistogramZielony->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->BTN_HistogramZielony->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->BTN_HistogramZielony->ForeColor = System::Drawing::Color::LightGray;
+			this->BTN_HistogramZielony->Location = System::Drawing::Point(130, 56);
+			this->BTN_HistogramZielony->Margin = System::Windows::Forms::Padding(2);
+			this->BTN_HistogramZielony->Name = L"BTN_HistogramZielony";
+			this->BTN_HistogramZielony->Size = System::Drawing::Size(75, 24);
+			this->BTN_HistogramZielony->TabIndex = 17;
+			this->BTN_HistogramZielony->Text = L"Podgl¹d";
+			this->BTN_HistogramZielony->UseVisualStyleBackColor = false;
+			this->BTN_HistogramZielony->Click += gcnew System::EventHandler(this, &MyForm::BTN_HistogramZielony_Click);
+			// 
+			// L_HistogramNiebieski
+			// 
+			this->L_HistogramNiebieski->AutoSize = true;
+			this->L_HistogramNiebieski->ForeColor = System::Drawing::Color::Silver;
+			this->L_HistogramNiebieski->Location = System::Drawing::Point(17, 101);
+			this->L_HistogramNiebieski->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->L_HistogramNiebieski->Name = L"L_HistogramNiebieski";
+			this->L_HistogramNiebieski->Size = System::Drawing::Size(69, 13);
+			this->L_HistogramNiebieski->TabIndex = 16;
+			this->L_HistogramNiebieski->Text = L"Niebieski (B):";
+			// 
+			// BTN_HistogramNiebieski
+			// 
+			this->BTN_HistogramNiebieski->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->BTN_HistogramNiebieski->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->BTN_HistogramNiebieski->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->BTN_HistogramNiebieski->ForeColor = System::Drawing::Color::LightGray;
+			this->BTN_HistogramNiebieski->Location = System::Drawing::Point(130, 95);
+			this->BTN_HistogramNiebieski->Margin = System::Windows::Forms::Padding(2);
+			this->BTN_HistogramNiebieski->Name = L"BTN_HistogramNiebieski";
+			this->BTN_HistogramNiebieski->Size = System::Drawing::Size(75, 24);
+			this->BTN_HistogramNiebieski->TabIndex = 18;
+			this->BTN_HistogramNiebieski->Text = L"Podgl¹d";
+			this->BTN_HistogramNiebieski->UseVisualStyleBackColor = false;
+			this->BTN_HistogramNiebieski->Click += gcnew System::EventHandler(this, &MyForm::BTN_HistogramNiebieski_Click);
+
 			// 
 			// BTN_WygenerujHistogramy
 			// 
@@ -540,6 +533,28 @@ namespace WinForms {
 			this->BTN_ZapiszPlik->Text = L"Zapisz";
 			this->BTN_ZapiszPlik->UseVisualStyleBackColor = false;
 			this->BTN_ZapiszPlik->Click += gcnew System::EventHandler(this, &MyForm::BTN_ZapiszPlik_Click);
+
+						/*	CZAS OBLICZEÑ	*/
+
+			// 
+			// G_CzasPracy
+			// 
+			this->G_CzasPracy->Controls->Add(this->L_CzasPracyHistogramy);
+			this->G_CzasPracy->Controls->Add(this->L_CzasPracyCpp);
+			this->G_CzasPracy->Controls->Add(this->L_CzasPracyASM);
+			this->G_CzasPracy->Controls->Add(this->L_CzasHistogramów);
+			this->G_CzasPracy->Controls->Add(this->L_CzasCpp);
+			this->G_CzasPracy->Controls->Add(this->L_CzasASM);
+			this->G_CzasPracy->ForeColor = System::Drawing::Color::Silver;
+			this->G_CzasPracy->Location = System::Drawing::Point(17, 254);
+			this->G_CzasPracy->Margin = System::Windows::Forms::Padding(2);
+			this->G_CzasPracy->Name = L"G_CzasPracy";
+			this->G_CzasPracy->Padding = System::Windows::Forms::Padding(2);
+			this->G_CzasPracy->Size = System::Drawing::Size(223, 94);
+			this->G_CzasPracy->TabIndex = 19;
+			this->G_CzasPracy->TabStop = false;
+			this->G_CzasPracy->Text = L"Czas pracy:";
+			this->G_CzasPracy->Enter += gcnew System::EventHandler(this, &MyForm::G_CzasPracy_Enter);
 			// 
 			// L_CzasASM
 			// 
@@ -641,7 +656,9 @@ namespace WinForms {
 	{
 		L_InfoPlikStan->Text = L"Analiza pliku";
 		
-		//this->Cursor = System::Windows::Forms::Cursors::WaitCursor;
+		L_CzasPracyCpp->Text = L"";
+		L_CzasPracyASM->Text = L"";
+		L_CzasPracyHistogramy->Text = L"";
 
 		L_InfoPlikStan->Text = L"Wczytywanie...";
 		if (OtwarciePliku->ShowDialog() == System::Windows::Forms::DialogResult::OK)
@@ -696,14 +713,13 @@ namespace WinForms {
 	{
 		try
 		{
-			timer.Reset();
-			timer.Start();
+			L_CzasPracyCpp->Text = L"W trakcie...";
 
 			int num = DDL_WymiaryPiksela->SelectedIndex;
 			int kwadrat = (num + 1);
 
-				//Dla indeksów do 19, wartoœæ kwadratu to numer indeksu + 1
-				//Dla indeksów od 20 do 24, wartoœæ ta zale¿y od tego switch
+			//Dla indeksów do 19, wartoœæ kwadratu to numer indeksu + 1
+			//Dla indeksów od 20 do 24, wartoœæ ta zale¿y od tego switch
 			switch (num)
 			{
 			case 20:
@@ -726,8 +742,12 @@ namespace WinForms {
 			Console::WriteLine(num);
 			Console::WriteLine(kwadrat);
 
+			timer.Reset();
+			timer.Start();
+
 			System::Windows::Forms::MessageBox::Show(L"Uruchomiono program w jêzyku C++!", L"Jêzyk programu");
-		//Uruchomienie wszystkich funkcji Cpp
+		
+				//Uruchomienie wszystkich funkcji Cpp
 			int wysokosc = bitmapaPoPrzejsciach->Height - (bitmapaPoPrzejsciach->Height % kwadrat);
 			int szerokosc = bitmapaPoPrzejsciach->Width - (bitmapaPoPrzejsciach->Width % kwadrat);
 
@@ -787,17 +807,114 @@ namespace WinForms {
 		//Dynamiczne ³adowanie biblioteki Asm
 		try
 		{
-			HINSTANCE hInstLibrary = LoadLibrary(L"AsmLib");
-			MyProc1 fun;
+			L_CzasPracyASM->Text = L"W trakcie...";
 
-			//WskaŸnik teraz wskazuje na: rzutowany typ naszego typedef, o adresie z dll'ki pod tym uchwytem, funkcji o nazwie Sum
-			fun = (MyProc1)GetProcAddress(hInstLibrary, "MyProc1");
+			HINSTANCE hInstLibrary = LoadLibrary(L"AsmLib");
+			Mozaika fun;
+
+			//WskaŸnik teraz wskazuje na: rzutowany typ naszego typedef, o adresie z dll'ki pod tym uchwytem, funkcji o nazwie Mozaika
+			fun = (Mozaika)GetProcAddress(hInstLibrary, "Mozaika");
+
+			int num = DDL_WymiaryPiksela->SelectedIndex;
+			int kwadrat = (num + 1);
+
+			//Dla indeksów do 19, wartoœæ kwadratu to numer indeksu + 1
+			//Dla indeksów od 20 do 24, wartoœæ ta zale¿y od tego switch
+			switch (num)
+			{
+			case 20:
+				kwadrat = 50;
+				break;
+			case 21:
+				kwadrat = 100;
+				break;
+			case 22:
+				kwadrat = 150;
+				break;
+			case 23:
+				kwadrat = 200;
+				break;
+			case 24:
+				kwadrat = 250;
+				break;
+			}
+
+			Console::WriteLine(num);
+			Console::WriteLine(kwadrat);
+
+			tablicaRED = gcnew array<unsigned char>(kwadrat*kwadrat);
+			tablicaGREEN = gcnew array<unsigned char>(kwadrat*kwadrat);
+			tablicaBLUE = gcnew array<unsigned char>(kwadrat*kwadrat);
 
 			timer.Reset();
 			timer.Start();
 
-			int result = fun(7, 3);
-			Console::WriteLine(result);
+			System::Windows::Forms::MessageBox::Show(L"Uruchomiono program w jêzyku C++!", L"Jêzyk programu");
+
+			//Uruchomienie wszystkich funkcji Cpp
+			int wysokosc = bitmapaPoPrzejsciach->Height - (bitmapaPoPrzejsciach->Height % kwadrat);
+			int szerokosc = bitmapaPoPrzejsciach->Width - (bitmapaPoPrzejsciach->Width % kwadrat);
+
+			for (int j = 0; j < wysokosc; j = (j + kwadrat))
+			{
+				for (int i = 0; i < szerokosc; i = (i + kwadrat))
+				{
+					int inkrementacja = 0;
+					int sR = 1, sG = 1, sB = 1;
+
+					unsigned char* tRED = new unsigned char[kwadrat*kwadrat];
+					unsigned char* tGREEN = new unsigned char[kwadrat*kwadrat];
+					unsigned char* tBLUE = new unsigned char[kwadrat*kwadrat];
+
+					Color pikselKolor;
+
+					for (int tJ = j; tJ < j + kwadrat; tJ++)
+					{
+						for (int tI = i; tI < i + kwadrat; tI++)
+						{
+							pikselKolor = bitmapaPoPrzejsciach->GetPixel(tI, tJ);
+							
+							tablicaRED[inkrementacja] = pikselKolor.R;
+							tablicaGREEN[inkrementacja] = pikselKolor.G;
+							tablicaBLUE[inkrementacja] = pikselKolor.B;
+
+							Console::Write(tablicaRED[inkrementacja] + "\t");
+							Console::Write(tablicaGREEN[inkrementacja] + "\t");
+							Console::Write(tablicaBLUE[inkrementacja] + "\t");
+							Console::WriteLine(inkrementacja);
+
+							tRED[inkrementacja] = tablicaRED[inkrementacja];
+							tGREEN[inkrementacja] = tablicaGREEN[inkrementacja];
+							tBLUE[inkrementacja] = tablicaBLUE[inkrementacja];
+
+							inkrementacja++;
+						}
+					}
+
+					unsigned char* tREDaddress = &(tRED[0]);
+					unsigned char* tGREENaddress = &(tGREEN[0]);
+					unsigned char* tBLUEaddress = &(tBLUE[0]);
+
+					sR = sR / (kwadrat * kwadrat);
+					sG = sG / (kwadrat * kwadrat);
+					sB = sB / (kwadrat * kwadrat);
+
+					for (int tJ = j; tJ < j + kwadrat; tJ++)
+					{
+						for (int tI = i; tI < i + kwadrat; tI++)
+						{
+							pikselKolor.FromArgb(sR, sG, sB);
+
+							bitmapaPoPrzejsciach->SetPixel(tI, tJ, pikselKolor);
+						}
+					}
+				}
+			}
+
+			B_PoEdycji->Image = bitmapaPoPrzejsciach;
+
+			//int result = fun(tablicaChar, 3);
+			//Console::WriteLine(result);
 
 			//Zwalnianie pamiêci po bibliotece
 			FreeLibrary(hInstLibrary);
@@ -855,8 +972,11 @@ namespace WinForms {
 		this->L_InfoHistogram->Text = L"Tworzenie histogramów";
 		try
 		{
+			L_CzasPracyHistogramy->Text = L"W trakcie...";
 			timer.Reset();
 			timer.Start();
+
+			this->bitmapaPoPrzejsciach = bitmapa;
 
 			for (int i = 0; i < 256; i++)
 			{

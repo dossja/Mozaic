@@ -35,4 +35,28 @@ MyProc1 proc x: DWORD, y: DWORD
 
 MyProc1 endp
 
+;-------------------------------------------------------------------------; Funkcja uœredniaj¹ca wartoœci podane w tablicy i zwracaj¹ca ich wynik
+
+Mozaika PROC stdcall uses EAX EBX ECX EDX, tablica: DWORD, ilosc: DWORD
+
+	MOV EAX, tablica
+	ADD EAX, ilosc
+	SUB EAX, 1
+	MOV CL, 0
+
+P:
+	MOV BL, [EAX]
+	ADD CL, BL
+	CMP EAX, tablica
+	JE K
+	SUB EAX, 1
+	JMP P
+
+K:
+	DIV CL, ilosc
+	MOV [EAX], CL
+	RET
+
+Mozaika ENDP
+
 END DllEntry ;-------------------------------------------------------------------------
