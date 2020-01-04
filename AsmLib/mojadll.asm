@@ -53,7 +53,7 @@ P:
 	JMP P
 
 K:
-	DIV CL, ilosc
+;	DIV [CL], ilosc
 	MOV [EAX], CL
 	RET
 

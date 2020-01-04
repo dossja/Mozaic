@@ -710,7 +710,9 @@ namespace WinForms {
 	}
 
 	private: System::Void BTN_UruchomCpp_Click(System::Object^  sender, System::EventArgs^  e) 
-	{
+	{	
+		bitmapaPoPrzejsciach = bitmapa;
+		B_PoEdycji->Image = bitmapaPoPrzejsciach;
 		try
 		{
 			L_CzasPracyCpp->Text = L"W trakcie...";
@@ -738,9 +740,6 @@ namespace WinForms {
 				kwadrat = 250;
 				break;
 			}
-
-			Console::WriteLine(num);
-			Console::WriteLine(kwadrat);
 
 			timer.Reset();
 			timer.Start();
@@ -801,19 +800,21 @@ namespace WinForms {
 	}
 
 	private: System::Void BTN_UruchomAsm_Click(System::Object^  sender, System::EventArgs^  e)
-	{
+	{			
+		bitmapaPoPrzejsciach = bitmapa;
+		B_PoEdycji->Image = bitmapaPoPrzejsciach;
 		System::Windows::Forms::MessageBox::Show(L"Uruchomiono program w jêzyku Asemblera!", L"Jêzyk programu");
-			//TODO
+
 		//Dynamiczne ³adowanie biblioteki Asm
 		try
 		{
 			L_CzasPracyASM->Text = L"W trakcie...";
 
 			HINSTANCE hInstLibrary = LoadLibrary(L"AsmLib");
-			Mozaika fun;
+			Mozaika mozaika;
 
 			//WskaŸnik teraz wskazuje na: rzutowany typ naszego typedef, o adresie z dll'ki pod tym uchwytem, funkcji o nazwie Mozaika
-			fun = (Mozaika)GetProcAddress(hInstLibrary, "Mozaika");
+			mozaika = (Mozaika)GetProcAddress(hInstLibrary, "Mozaika");
 
 			int num = DDL_WymiaryPiksela->SelectedIndex;
 			int kwadrat = (num + 1);
@@ -839,12 +840,11 @@ namespace WinForms {
 				break;
 			}
 
-			Console::WriteLine(num);
-			Console::WriteLine(kwadrat);
-
 			tablicaRED = gcnew array<unsigned char>(kwadrat*kwadrat);
 			tablicaGREEN = gcnew array<unsigned char>(kwadrat*kwadrat);
 			tablicaBLUE = gcnew array<unsigned char>(kwadrat*kwadrat);
+
+			int ilosc = kwadrat * kwadrat;
 
 			timer.Reset();
 			timer.Start();
@@ -860,11 +860,10 @@ namespace WinForms {
 				for (int i = 0; i < szerokosc; i = (i + kwadrat))
 				{
 					int inkrementacja = 0;
-					int sR = 1, sG = 1, sB = 1;
 
-					unsigned char* tRED = new unsigned char[kwadrat*kwadrat];
-					unsigned char* tGREEN = new unsigned char[kwadrat*kwadrat];
-					unsigned char* tBLUE = new unsigned char[kwadrat*kwadrat];
+					unsigned char* tRED = new unsigned char[ilosc];
+					unsigned char* tGREEN = new unsigned char[ilosc];
+					unsigned char* tBLUE = new unsigned char[ilosc];
 
 					Color pikselKolor;
 
@@ -878,11 +877,6 @@ namespace WinForms {
 							tablicaGREEN[inkrementacja] = pikselKolor.G;
 							tablicaBLUE[inkrementacja] = pikselKolor.B;
 
-							Console::Write(tablicaRED[inkrementacja] + "\t");
-							Console::Write(tablicaGREEN[inkrementacja] + "\t");
-							Console::Write(tablicaBLUE[inkrementacja] + "\t");
-							Console::WriteLine(inkrementacja);
-
 							tRED[inkrementacja] = tablicaRED[inkrementacja];
 							tGREEN[inkrementacja] = tablicaGREEN[inkrementacja];
 							tBLUE[inkrementacja] = tablicaBLUE[inkrementacja];
@@ -895,15 +889,15 @@ namespace WinForms {
 					unsigned char* tGREENaddress = &(tGREEN[0]);
 					unsigned char* tBLUEaddress = &(tBLUE[0]);
 
-					sR = sR / (kwadrat * kwadrat);
-					sG = sG / (kwadrat * kwadrat);
-					sB = sB / (kwadrat * kwadrat);
+					mozaika(tREDaddress, ilosc);
+					mozaika(tGREENaddress, ilosc);
+					mozaika(tBLUEaddress, ilosc);
 
 					for (int tJ = j; tJ < j + kwadrat; tJ++)
 					{
 						for (int tI = i; tI < i + kwadrat; tI++)
 						{
-							pikselKolor.FromArgb(sR, sG, sB);
+							pikselKolor.FromArgb((tRED[0]/ilosc), (tGREEN[0]/ilosc), (tBLUE[0]/ilosc));
 
 							bitmapaPoPrzejsciach->SetPixel(tI, tJ, pikselKolor);
 						}
@@ -912,9 +906,6 @@ namespace WinForms {
 			}
 
 			B_PoEdycji->Image = bitmapaPoPrzejsciach;
-
-			//int result = fun(tablicaChar, 3);
-			//Console::WriteLine(result);
 
 			//Zwalnianie pamiêci po bibliotece
 			FreeLibrary(hInstLibrary);
