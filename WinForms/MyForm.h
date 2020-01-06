@@ -34,11 +34,6 @@ namespace WinForms {
 		array<int>^ tabGREEN = gcnew array<int>(256);
 		array<int>^ tabBLUE = gcnew array<int>(256);
 
-		//Tablice przechowuj¹ce wartoœci przesy³ane do funkcji asemblerowej dla poszczególnych kolorów
-		array<unsigned char>^ tablicaRED;
-		array<unsigned char>^ tablicaGREEN;
-		array<unsigned char>^ tablicaBLUE;
-
 	private: System::Windows::Forms::Label^  L_InfoHistogram;
 	private: System::Windows::Forms::Button^  BTN_ZapiszPlik;
 	private: System::Windows::Forms::Label^  L_CzasPracyHistogramy;
@@ -258,7 +253,6 @@ namespace WinForms {
 			this->L_InfoPlikStan->Size = System::Drawing::Size(121, 15);
 			this->L_InfoPlikStan->TabIndex = 4;
 			this->L_InfoPlikStan->Text = L"Stan ³adowania pliku";
-			this->L_InfoPlikStan->Click += gcnew System::EventHandler(this, &MyForm::L_InfoPlikStan_Click);
 			// 
 			// B_PrzedEdycja
 			// 
@@ -281,7 +275,6 @@ namespace WinForms {
 			this->B_PoEdycji->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->B_PoEdycji->TabIndex = 7;
 			this->B_PoEdycji->TabStop = false;
-			this->B_PoEdycji->Click += gcnew System::EventHandler(this, &MyForm::B_PoEdycji_Click);
 			// 
 			// BTN_RestartProgramu
 			// 
@@ -353,7 +346,6 @@ namespace WinForms {
 			this->G_PrzedEdycja->TabIndex = 14;
 			this->G_PrzedEdycja->TabStop = false;
 			this->G_PrzedEdycja->Text = L"Przed edycj¹";
-			this->G_PrzedEdycja->Enter += gcnew System::EventHandler(this, &MyForm::G_PrzedEdycja_Enter);
 			// 
 			// G_PoEdycji
 			// 
@@ -395,6 +387,7 @@ namespace WinForms {
 					L"6x6", L"7x7", L"8x8", L"9x9", L"10x10", L"11x11", L"12x12", L"13x13", L"14x14", L"15x15", L"16x16", L"17x17", L"18x18", L"19x19",
 					L"20x20", L"50x50", L"100x100", L"150x150", L"200x200", L"250x250"
 			});
+			this->DDL_WymiaryPiksela->SelectedIndex = 0;
 			this->DDL_WymiaryPiksela->Location = System::Drawing::Point(144, 196);
 			this->DDL_WymiaryPiksela->Margin = System::Windows::Forms::Padding(2);
 			this->DDL_WymiaryPiksela->Name = L"DDL_WymiaryPiksela";
@@ -516,7 +509,6 @@ namespace WinForms {
 			this->G_CzasPracy->TabIndex = 19;
 			this->G_CzasPracy->TabStop = false;
 			this->G_CzasPracy->Text = L"Czas pracy:";
-			this->G_CzasPracy->Enter += gcnew System::EventHandler(this, &MyForm::G_CzasPracy_Enter);
 			// 
 			// L_CzasPracyHistogramy
 			// 
@@ -680,16 +672,6 @@ namespace WinForms {
 
 	}
 
-	private: private: System::Void B_PrzedEdycja_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-
-	}
-
-	private: private: System::Void B_PoEdycji_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-
-	}
-
 	private: System::Void BTN_ZamknijProgram_Click(System::Object^  sender, System::EventArgs^  e) 
 	{
 		System::Windows::Forms::MessageBox::Show(L"Program zostanie zamkniêty!", L"Program");	//Wyœwietlanie okienka z komunikatem i ok
@@ -734,15 +716,19 @@ namespace WinForms {
 				break;
 			}
 
+				//Zerowanie stopera i ponowne jego uruchomienie
 			timer.Reset();
 			timer.Start();
 
 			System::Windows::Forms::MessageBox::Show(L"Uruchomiono program w jêzyku C++!", L"Jêzyk programu");
 		
-				//Uruchomienie wszystkich funkcji Cpp
+				//Jednym z za³o¿eñ projektu jest nieedystowanie pikseli, które nie tworz¹ jednego z pe³nych kwadratów,
+				// w celu niesprawdzania tego warunku, w tym miejscu obliczany jest wymiar obrazu zawieraj¹cego same kwadraty
+				// w zwi¹zku z tym obliczenia nie dotycz¹ niepe³nych kwadratów
 			int wysokosc = bitmapaPoPrzejsciach->Height - (bitmapaPoPrzejsciach->Height % kwadrat);
 			int szerokosc = bitmapaPoPrzejsciach->Width - (bitmapaPoPrzejsciach->Width % kwadrat);
 
+				//Uruchomienie wszystkich funkcji Cpp
 			for (int j = 0; j < wysokosc; j = (j + kwadrat))
 			{
 				for (int i = 0; i < szerokosc; i = (i + kwadrat))
@@ -750,6 +736,7 @@ namespace WinForms {
 					int sR = 0, sG = 0, sB = 0;
 					Color pikselKolor;
 
+					//Dodawanie wartoœci RGB w pikselach tworz¹cych kwadraty
 					for (int tJ = j; tJ < j + kwadrat; tJ++)
 					{
 						for (int tI = i; tI < i + kwadrat; tI++)
@@ -761,10 +748,12 @@ namespace WinForms {
 						}
 					}
 
+					//Obliczanie œrednich wartoœci poszczególnych elementów koloru RGB
 					sR = sR / (kwadrat * kwadrat);
 					sG = sG / (kwadrat * kwadrat);
 					sB = sB / (kwadrat * kwadrat);
 
+					//Ustawianie kolorów zedytowanych pikseli
 					for (int tJ = j; tJ < j + kwadrat; tJ++)
 					{
 						for (int tI = i; tI < i + kwadrat; tI++)
@@ -777,8 +766,10 @@ namespace WinForms {
 				}
 			}
 
+			//Wczytywanie zedytowaniej bitmapy
 			B_PoEdycji->Image = bitmapaPoPrzejsciach;
 
+			//Zatrzymanie stopera, odczyt jego wartoœci i wpisanie do labela
 			timer.Stop();
 			TimeSpan czas = timer.Elapsed;
 			String ^format = "{0:00}:{1:00}:{2:00}.{3:00}";
@@ -789,6 +780,7 @@ namespace WinForms {
 		catch (...)
 		{
 			System::Windows::Forms::MessageBox::Show(L"W celu przekszta³cenia pliku nale¿y go najpierw otworzyæ.", L"Error!");
+			L_CzasPracyCpp->Text = L"Error!";
 		}
 	}
 
@@ -833,21 +825,20 @@ namespace WinForms {
 				break;
 			}
 
-			tablicaRED = gcnew array<unsigned char>(kwadrat*kwadrat);
-			tablicaGREEN = gcnew array<unsigned char>(kwadrat*kwadrat);
-			tablicaBLUE = gcnew array<unsigned char>(kwadrat*kwadrat);
-
+			//Tworzenie zmiennej z liczb¹ pikseli w kwadracie, ¿eby ograniczyæ liczbê ponownego wymna¿ania
 			int ilosc = kwadrat * kwadrat;
 
+			//Uruchamianie stopera
 			timer.Reset();
 			timer.Start();
 
-			System::Windows::Forms::MessageBox::Show(L"Uruchomiono program w jêzyku C++!", L"Jêzyk programu");
-
-			//Uruchomienie wszystkich funkcji Cpp
+				//Jednym z za³o¿eñ projektu jest nieedystowanie pikseli, które nie tworz¹ jednego z pe³nych kwadratów,
+				// w celu niesprawdzania tego warunku, w tym miejscu obliczany jest wymiar obrazu zawieraj¹cego same kwadraty
+				// w zwi¹zku z tym obliczenia nie dotycz¹ niepe³nych kwadratów
 			int wysokosc = bitmapaPoPrzejsciach->Height - (bitmapaPoPrzejsciach->Height % kwadrat);
 			int szerokosc = bitmapaPoPrzejsciach->Width - (bitmapaPoPrzejsciach->Width % kwadrat);
 
+			//Uruchomienie wszystkich funkcji Cpp i ASM
 			for (int j = 0; j < wysokosc; j = (j + kwadrat))
 			{
 				for (int i = 0; i < szerokosc; i = (i + kwadrat))
@@ -865,23 +856,22 @@ namespace WinForms {
 						for (int tI = i; tI < i + kwadrat; tI++)
 						{
 							pikselKolor = bitmapaPoPrzejsciach->GetPixel(tI, tJ);
-							
-							tablicaRED[inkrementacja] = pikselKolor.R;
-							tablicaGREEN[inkrementacja] = pikselKolor.G;
-							tablicaBLUE[inkrementacja] = pikselKolor.B;
 
-							tRED[inkrementacja] = tablicaRED[inkrementacja];
-							tGREEN[inkrementacja] = tablicaGREEN[inkrementacja];
-							tBLUE[inkrementacja] = tablicaBLUE[inkrementacja];
+							//Przepisywanie wartoœci pikseli do tablicy char
+							tRED[inkrementacja] = pikselKolor.R;
+							tGREEN[inkrementacja] = pikselKolor.G;
+							tBLUE[inkrementacja] = pikselKolor.G;
 
 							inkrementacja++;
 						}
 					}
 
+					//Zmienne przechowywuj¹ce wartoœci adresów tablic poszczególnych czêœci koloru, do przekazania do funkcji ASM
 					unsigned char* tREDaddress = &(tRED[0]);
 					unsigned char* tGREENaddress = &(tGREEN[0]);
 					unsigned char* tBLUEaddress = &(tBLUE[0]);
 
+					//Wywo³anie funkcji dla poszczególnych tablic
 					mozaika(tREDaddress, ilosc);
 					mozaika(tGREENaddress, ilosc);
 					mozaika(tBLUEaddress, ilosc);
@@ -903,6 +893,7 @@ namespace WinForms {
 			//Zwalnianie pamiêci po bibliotece
 			FreeLibrary(hInstLibrary);
 
+			//Odczyt czasu pracy i zapis do labela
 			timer.Stop();
 			TimeSpan czas = timer.Elapsed;
 			String ^format = "{0:00}:{1:00}:{2:00}.{3:00}";
@@ -913,9 +904,11 @@ namespace WinForms {
 		catch (...)
 		{
 			System::Windows::Forms::MessageBox::Show(L"B³¹d przy ³adowaniu biblioteki asemblerowej!", L"Error!");
+			L_CzasPracyASM->Text = L"Error!";
 		}
 	}
 
+		//Otwieranie nowego forma z histogramem koloru czerwonego
 	private: System::Void BTN_HistogramCzerwony_Click(System::Object^  sender, System::EventArgs^  e)
 	{
 		WinForms::HistogramForm form(tabRED, System::Drawing::Color::Red);
@@ -923,6 +916,7 @@ namespace WinForms {
 		this->Show();
 	}
 
+		//Otwieranie nowego forma z histogramem koloru zielonego
 	private: System::Void BTN_HistogramZielony_Click(System::Object^  sender, System::EventArgs^  e) 
 	{
 		WinForms::HistogramForm form(tabGREEN, System::Drawing::Color::Green);
@@ -930,6 +924,7 @@ namespace WinForms {
 		this->Show();
 	}
 
+		//Otwieranie nowego forma z histogramem koloru niebieskiego
 	private: System::Void BTN_HistogramNiebieski_Click(System::Object^  sender, System::EventArgs^  e) 
 	{
 		WinForms::HistogramForm form(tabBLUE, System::Drawing::Color::Blue);
@@ -941,15 +936,6 @@ namespace WinForms {
 	{
 
 	}
-	
-	private: System::Void G_CzasPracy_Enter(System::Object^  sender, System::EventArgs^  e)
-	{
-
-	}
-	private: System::Void G_PrzedEdycja_Enter(System::Object^  sender, System::EventArgs^  e)
-	{
-
-	}
 
 	private: System::Void BTN_WygenerujHistogramy_Click(System::Object^  sender, System::EventArgs^  e)
 	{
@@ -957,6 +943,8 @@ namespace WinForms {
 		try
 		{
 			L_CzasPracyHistogramy->Text = L"W trakcie...";
+			
+			//Uruchamianie stopera
 			timer.Reset();
 			timer.Start();
 
@@ -964,6 +952,7 @@ namespace WinForms {
 
 			for (int i = 0; i < 256; i++)
 			{
+				//Zerowanie tablic dla histogramów
 				tabRED[i] = 0; tabGREEN[i] = 0; tabBLUE[i] = 0;
 			}
 
@@ -974,14 +963,18 @@ namespace WinForms {
 			{
 				for (int j = 0; j < bitmapaPoPrzejsciach->Size.Height; j++)
 				{
+					//Pobieranie wartoœci RGB pikseli
 					pikselKolor = bitmapaPoPrzejsciach->GetPixel(i, j);
 
+					//Zapis tych wartoœci do zmiennych
 					iRED = pikselKolor.R; iGREEN = pikselKolor.G; iBLUE = pikselKolor.B;
 
+					//Inkrementacja wartoœci tablic
 					(tabRED[iRED])++; (tabGREEN[iGREEN])++; (tabBLUE[iBLUE])++;
 				}
 			}
 
+			//Zatrzymanie stopera i zapis wyniku do labela
 			timer.Stop();
 			TimeSpan czas = timer.Elapsed;
 			String ^format = "{0:00}:{1:00}:{2:00}.{3:00}";
@@ -993,10 +986,12 @@ namespace WinForms {
 		{
 			System::Windows::Forms::MessageBox::Show(L"Nie mo¿na utworzyæ histogramów pliku.", L"Error!");
 			L_InfoPlikStan->Text = L"Wybierz ponownie inny plik.";
+			L_CzasPracyHistogramy->Text = L"Error!";
 		}
 
 		this->L_InfoHistogram->Text = L"Utworzono histogramy.";
 	}
+
 	private: System::Void BTN_ZapiszPlik_Click(System::Object^  sender, System::EventArgs^  e)
 	{
 		if (ZapisaniePliku->ShowDialog() == System::Windows::Forms::DialogResult::OK)
@@ -1014,8 +1009,6 @@ namespace WinForms {
 			}
 		}
 	}
-private: System::Void L_InfoPlikStan_Click(System::Object^  sender, System::EventArgs^  e) {
-}
 };
 }
 

@@ -16,46 +16,26 @@ DllEntry PROC hInstDLL:HINSTANCE, reason:DWORD, reserved1:DWORD
 
 DllEntry ENDP
 
-;------------------------------------------------------------------------- ; To jest przyk³adowa funkcja. Jest tutaj, aby pokazaæ, ; gdzie nale¿y umieszczaæ w³asne funkcje w bibliotece DLL ;-------------------------------------------------------------------------
-
-MyProc1 proc x: DWORD, y: DWORD
-
-	xor eax,eax 
-	mov eax,x 
-	mov ecx,y 
-	ror ecx,1 
-	shld eax,ecx,2 
-	jnc ET1
-	mul y
-	ret 
-	ET1: 
-	Mul x
-	Neg y
-	ret
-
-MyProc1 endp
-
 ;-------------------------------------------------------------------------; Funkcja uœredniaj¹ca wartoœci podane w tablicy i zwracaj¹ca ich wynik
 
 Mozaika PROC stdcall uses EAX EBX ECX EDX, tablica: DWORD, ilosc: DWORD
 
-	MOV EAX, tablica
-	ADD EAX, ilosc
-	SUB EAX, 1
-	MOV CL, 0
+	MOV EAX, tablica	;Adres 1 komórki tablicy na stos
+	ADD EAX, ilosc		;Przesuniêcie siê w tablicy o iloœæ elementów
+	SUB EAX, 1			
+	MOV CL, 0			;Zerowanie CL
 
 P:
-	MOV BL, [EAX]
-	ADD CL, BL
-	CMP EAX, tablica
-	JE K
-	SUB EAX, 1
-	JMP P
+	MOV BL, [EAX]		;Wpisywanie wartoœci z tablicy do BL
+	ADD CL, BL			;Dodawanie zawartoœci BL do zawartoœci CL
+	CMP EAX, tablica	;Sprawdzanie czy dotarto na pocz¹tek tablicy (zakoñczono operacje)
+	JE K				;Jeœli tak, to skok do koñca
+	SUB EAX, 1			;Jeœli nie to przesuñ o 1 wartoœæ
+	JMP P				;Powtórz pêtlê
 
 K:
-;	DIV [CL], ilosc
-	MOV [EAX], CL
-	RET
+	MOV [EAX], CL		;Wpisanie sumy do pierwszej komórki tablicy
+	RET					;Wyjœcie z funkcji
 
 Mozaika ENDP
 

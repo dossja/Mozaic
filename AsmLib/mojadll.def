@@ -1,5 +1,4 @@
 ;-------------------------------------
 LIBRARY AsmLib
-EXPORTS MyProc1
 EXPORTS Mozaika
 ;-------------------------------------
