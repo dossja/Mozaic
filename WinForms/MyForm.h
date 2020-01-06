@@ -152,14 +152,14 @@ namespace WinForms {
 			this->L_HistogramCzerwony = (gcnew System::Windows::Forms::Label());
 			this->BTN_HistogramCzerwony = (gcnew System::Windows::Forms::Button());
 			this->G_CzasPracy = (gcnew System::Windows::Forms::GroupBox());
+			this->L_CzasPracyHistogramy = (gcnew System::Windows::Forms::Label());
+			this->L_CzasPracyCpp = (gcnew System::Windows::Forms::Label());
+			this->L_CzasPracyASM = (gcnew System::Windows::Forms::Label());
+			this->L_CzasHistogramów = (gcnew System::Windows::Forms::Label());
+			this->L_CzasCpp = (gcnew System::Windows::Forms::Label());
+			this->L_CzasASM = (gcnew System::Windows::Forms::Label());
 			this->BTN_WygenerujHistogramy = (gcnew System::Windows::Forms::Button());
 			this->BTN_ZapiszPlik = (gcnew System::Windows::Forms::Button());
-			this->L_CzasASM = (gcnew System::Windows::Forms::Label());
-			this->L_CzasCpp = (gcnew System::Windows::Forms::Label());
-			this->L_CzasHistogramów = (gcnew System::Windows::Forms::Label());
-			this->L_CzasPracyASM = (gcnew System::Windows::Forms::Label());
-			this->L_CzasPracyCpp = (gcnew System::Windows::Forms::Label());
-			this->L_CzasPracyHistogramy = (gcnew System::Windows::Forms::Label());
 			this->G_InfoPlik->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->B_PrzedEdycja))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->B_PoEdycji))->BeginInit();
@@ -219,7 +219,7 @@ namespace WinForms {
 			this->G_InfoPlik->Margin = System::Windows::Forms::Padding(2);
 			this->G_InfoPlik->Name = L"G_InfoPlik";
 			this->G_InfoPlik->Padding = System::Windows::Forms::Padding(2);
-			this->G_InfoPlik->Size = System::Drawing::Size(223, 131);
+			this->G_InfoPlik->Size = System::Drawing::Size(223, 103);
 			this->G_InfoPlik->TabIndex = 5;
 			this->G_InfoPlik->TabStop = false;
 			this->G_InfoPlik->Text = L"Informacje:";
@@ -228,7 +228,7 @@ namespace WinForms {
 			// 
 			this->L_InfoHistogram->AutoSize = true;
 			this->L_InfoHistogram->ForeColor = System::Drawing::Color::LightGray;
-			this->L_InfoHistogram->Location = System::Drawing::Point(17, 63);
+			this->L_InfoHistogram->Location = System::Drawing::Point(17, 70);
 			this->L_InfoHistogram->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->L_InfoHistogram->Name = L"L_InfoHistogram";
 			this->L_InfoHistogram->Size = System::Drawing::Size(146, 13);
@@ -239,7 +239,7 @@ namespace WinForms {
 			// 
 			this->L_InfoPlikWymiary->AutoSize = true;
 			this->L_InfoPlikWymiary->ForeColor = System::Drawing::Color::LightGray;
-			this->L_InfoPlikWymiary->Location = System::Drawing::Point(17, 39);
+			this->L_InfoPlikWymiary->Location = System::Drawing::Point(17, 45);
 			this->L_InfoPlikWymiary->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->L_InfoPlikWymiary->Name = L"L_InfoPlikWymiary";
 			this->L_InfoPlikWymiary->Size = System::Drawing::Size(146, 13);
@@ -252,12 +252,13 @@ namespace WinForms {
 			this->L_InfoPlikStan->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->L_InfoPlikStan->ForeColor = System::Drawing::Color::LightGray;
-			this->L_InfoPlikStan->Location = System::Drawing::Point(17, 15);
+			this->L_InfoPlikStan->Location = System::Drawing::Point(17, 20);
 			this->L_InfoPlikStan->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->L_InfoPlikStan->Name = L"L_InfoPlikStan";
 			this->L_InfoPlikStan->Size = System::Drawing::Size(121, 15);
 			this->L_InfoPlikStan->TabIndex = 4;
 			this->L_InfoPlikStan->Text = L"Stan ³adowania pliku";
+			this->L_InfoPlikStan->Click += gcnew System::EventHandler(this, &MyForm::L_InfoPlikStan_Click);
 			// 
 			// B_PrzedEdycja
 			// 
@@ -333,7 +334,7 @@ namespace WinForms {
 			// 
 			this->L_WymiaryPiksela->AutoSize = true;
 			this->L_WymiaryPiksela->ForeColor = System::Drawing::Color::Silver;
-			this->L_WymiaryPiksela->Location = System::Drawing::Point(30, 212);
+			this->L_WymiaryPiksela->Location = System::Drawing::Point(34, 196);
 			this->L_WymiaryPiksela->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->L_WymiaryPiksela->Name = L"L_WymiaryPiksela";
 			this->L_WymiaryPiksela->Size = System::Drawing::Size(86, 13);
@@ -394,15 +395,11 @@ namespace WinForms {
 					L"6x6", L"7x7", L"8x8", L"9x9", L"10x10", L"11x11", L"12x12", L"13x13", L"14x14", L"15x15", L"16x16", L"17x17", L"18x18", L"19x19",
 					L"20x20", L"50x50", L"100x100", L"150x150", L"200x200", L"250x250"
 			});
-			this->DDL_WymiaryPiksela->SelectedIndex = 0;
-			this->DDL_WymiaryPiksela->Location = System::Drawing::Point(140, 212);
+			this->DDL_WymiaryPiksela->Location = System::Drawing::Point(144, 196);
 			this->DDL_WymiaryPiksela->Margin = System::Windows::Forms::Padding(2);
 			this->DDL_WymiaryPiksela->Name = L"DDL_WymiaryPiksela";
 			this->DDL_WymiaryPiksela->Size = System::Drawing::Size(78, 25);
 			this->DDL_WymiaryPiksela->TabIndex = 17;
-
-								/*	HISTOGRAMY	*/
-
 			// 
 			// G_Histogramy
 			// 
@@ -421,6 +418,59 @@ namespace WinForms {
 			this->G_Histogramy->TabIndex = 18;
 			this->G_Histogramy->TabStop = false;
 			this->G_Histogramy->Text = L"Histogram do podgl¹du:";
+			// 
+			// BTN_HistogramNiebieski
+			// 
+			this->BTN_HistogramNiebieski->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->BTN_HistogramNiebieski->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->BTN_HistogramNiebieski->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->BTN_HistogramNiebieski->ForeColor = System::Drawing::Color::LightGray;
+			this->BTN_HistogramNiebieski->Location = System::Drawing::Point(130, 95);
+			this->BTN_HistogramNiebieski->Margin = System::Windows::Forms::Padding(2);
+			this->BTN_HistogramNiebieski->Name = L"BTN_HistogramNiebieski";
+			this->BTN_HistogramNiebieski->Size = System::Drawing::Size(75, 24);
+			this->BTN_HistogramNiebieski->TabIndex = 18;
+			this->BTN_HistogramNiebieski->Text = L"Podgl¹d";
+			this->BTN_HistogramNiebieski->UseVisualStyleBackColor = false;
+			this->BTN_HistogramNiebieski->Click += gcnew System::EventHandler(this, &MyForm::BTN_HistogramNiebieski_Click);
+			// 
+			// BTN_HistogramZielony
+			// 
+			this->BTN_HistogramZielony->BackColor = System::Drawing::Color::Green;
+			this->BTN_HistogramZielony->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->BTN_HistogramZielony->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->BTN_HistogramZielony->ForeColor = System::Drawing::Color::LightGray;
+			this->BTN_HistogramZielony->Location = System::Drawing::Point(130, 56);
+			this->BTN_HistogramZielony->Margin = System::Windows::Forms::Padding(2);
+			this->BTN_HistogramZielony->Name = L"BTN_HistogramZielony";
+			this->BTN_HistogramZielony->Size = System::Drawing::Size(75, 24);
+			this->BTN_HistogramZielony->TabIndex = 17;
+			this->BTN_HistogramZielony->Text = L"Podgl¹d";
+			this->BTN_HistogramZielony->UseVisualStyleBackColor = false;
+			this->BTN_HistogramZielony->Click += gcnew System::EventHandler(this, &MyForm::BTN_HistogramZielony_Click);
+			// 
+			// L_HistogramNiebieski
+			// 
+			this->L_HistogramNiebieski->AutoSize = true;
+			this->L_HistogramNiebieski->ForeColor = System::Drawing::Color::Silver;
+			this->L_HistogramNiebieski->Location = System::Drawing::Point(17, 101);
+			this->L_HistogramNiebieski->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->L_HistogramNiebieski->Name = L"L_HistogramNiebieski";
+			this->L_HistogramNiebieski->Size = System::Drawing::Size(69, 13);
+			this->L_HistogramNiebieski->TabIndex = 16;
+			this->L_HistogramNiebieski->Text = L"Niebieski (B):";
+			// 
+			// L_HistogramZielony
+			// 
+			this->L_HistogramZielony->AutoSize = true;
+			this->L_HistogramZielony->ForeColor = System::Drawing::Color::Silver;
+			this->L_HistogramZielony->Location = System::Drawing::Point(17, 62);
+			this->L_HistogramZielony->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->L_HistogramZielony->Name = L"L_HistogramZielony";
+			this->L_HistogramZielony->Size = System::Drawing::Size(61, 13);
+			this->L_HistogramZielony->TabIndex = 15;
+			this->L_HistogramZielony->Text = L"Zielony (G):";
 			// 
 			// L_HistogramCzerwony
 			// 
@@ -449,59 +499,75 @@ namespace WinForms {
 			this->BTN_HistogramCzerwony->UseVisualStyleBackColor = false;
 			this->BTN_HistogramCzerwony->Click += gcnew System::EventHandler(this, &MyForm::BTN_HistogramCzerwony_Click);
 			// 
-			// L_HistogramZielony
+			// G_CzasPracy
 			// 
-			this->L_HistogramZielony->AutoSize = true;
-			this->L_HistogramZielony->ForeColor = System::Drawing::Color::Silver;
-			this->L_HistogramZielony->Location = System::Drawing::Point(17, 62);
-			this->L_HistogramZielony->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
-			this->L_HistogramZielony->Name = L"L_HistogramZielony";
-			this->L_HistogramZielony->Size = System::Drawing::Size(61, 13);
-			this->L_HistogramZielony->TabIndex = 15;
-			this->L_HistogramZielony->Text = L"Zielony (G):";
+			this->G_CzasPracy->Controls->Add(this->L_CzasPracyHistogramy);
+			this->G_CzasPracy->Controls->Add(this->L_CzasPracyCpp);
+			this->G_CzasPracy->Controls->Add(this->L_CzasPracyASM);
+			this->G_CzasPracy->Controls->Add(this->L_CzasHistogramów);
+			this->G_CzasPracy->Controls->Add(this->L_CzasCpp);
+			this->G_CzasPracy->Controls->Add(this->L_CzasASM);
+			this->G_CzasPracy->ForeColor = System::Drawing::Color::Silver;
+			this->G_CzasPracy->Location = System::Drawing::Point(17, 254);
+			this->G_CzasPracy->Margin = System::Windows::Forms::Padding(2);
+			this->G_CzasPracy->Name = L"G_CzasPracy";
+			this->G_CzasPracy->Padding = System::Windows::Forms::Padding(2);
+			this->G_CzasPracy->Size = System::Drawing::Size(223, 94);
+			this->G_CzasPracy->TabIndex = 19;
+			this->G_CzasPracy->TabStop = false;
+			this->G_CzasPracy->Text = L"Czas pracy:";
+			this->G_CzasPracy->Enter += gcnew System::EventHandler(this, &MyForm::G_CzasPracy_Enter);
 			// 
-			// BTN_HistogramZielony
+			// L_CzasPracyHistogramy
 			// 
-			this->BTN_HistogramZielony->BackColor = System::Drawing::Color::Green;
-			this->BTN_HistogramZielony->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->BTN_HistogramZielony->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->BTN_HistogramZielony->ForeColor = System::Drawing::Color::LightGray;
-			this->BTN_HistogramZielony->Location = System::Drawing::Point(130, 56);
-			this->BTN_HistogramZielony->Margin = System::Windows::Forms::Padding(2);
-			this->BTN_HistogramZielony->Name = L"BTN_HistogramZielony";
-			this->BTN_HistogramZielony->Size = System::Drawing::Size(75, 24);
-			this->BTN_HistogramZielony->TabIndex = 17;
-			this->BTN_HistogramZielony->Text = L"Podgl¹d";
-			this->BTN_HistogramZielony->UseVisualStyleBackColor = false;
-			this->BTN_HistogramZielony->Click += gcnew System::EventHandler(this, &MyForm::BTN_HistogramZielony_Click);
+			this->L_CzasPracyHistogramy->AutoSize = true;
+			this->L_CzasPracyHistogramy->Location = System::Drawing::Point(89, 67);
+			this->L_CzasPracyHistogramy->Name = L"L_CzasPracyHistogramy";
+			this->L_CzasPracyHistogramy->Size = System::Drawing::Size(0, 13);
+			this->L_CzasPracyHistogramy->TabIndex = 5;
 			// 
-			// L_HistogramNiebieski
+			// L_CzasPracyCpp
 			// 
-			this->L_HistogramNiebieski->AutoSize = true;
-			this->L_HistogramNiebieski->ForeColor = System::Drawing::Color::Silver;
-			this->L_HistogramNiebieski->Location = System::Drawing::Point(17, 101);
-			this->L_HistogramNiebieski->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
-			this->L_HistogramNiebieski->Name = L"L_HistogramNiebieski";
-			this->L_HistogramNiebieski->Size = System::Drawing::Size(69, 13);
-			this->L_HistogramNiebieski->TabIndex = 16;
-			this->L_HistogramNiebieski->Text = L"Niebieski (B):";
+			this->L_CzasPracyCpp->AutoSize = true;
+			this->L_CzasPracyCpp->Location = System::Drawing::Point(89, 43);
+			this->L_CzasPracyCpp->Name = L"L_CzasPracyCpp";
+			this->L_CzasPracyCpp->Size = System::Drawing::Size(0, 13);
+			this->L_CzasPracyCpp->TabIndex = 4;
 			// 
-			// BTN_HistogramNiebieski
+			// L_CzasPracyASM
 			// 
-			this->BTN_HistogramNiebieski->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
-				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)));
-			this->BTN_HistogramNiebieski->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->BTN_HistogramNiebieski->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->BTN_HistogramNiebieski->ForeColor = System::Drawing::Color::LightGray;
-			this->BTN_HistogramNiebieski->Location = System::Drawing::Point(130, 95);
-			this->BTN_HistogramNiebieski->Margin = System::Windows::Forms::Padding(2);
-			this->BTN_HistogramNiebieski->Name = L"BTN_HistogramNiebieski";
-			this->BTN_HistogramNiebieski->Size = System::Drawing::Size(75, 24);
-			this->BTN_HistogramNiebieski->TabIndex = 18;
-			this->BTN_HistogramNiebieski->Text = L"Podgl¹d";
-			this->BTN_HistogramNiebieski->UseVisualStyleBackColor = false;
-			this->BTN_HistogramNiebieski->Click += gcnew System::EventHandler(this, &MyForm::BTN_HistogramNiebieski_Click);
-
+			this->L_CzasPracyASM->AutoSize = true;
+			this->L_CzasPracyASM->Location = System::Drawing::Point(89, 19);
+			this->L_CzasPracyASM->Name = L"L_CzasPracyASM";
+			this->L_CzasPracyASM->Size = System::Drawing::Size(0, 13);
+			this->L_CzasPracyASM->TabIndex = 3;
+			// 
+			// L_CzasHistogramów
+			// 
+			this->L_CzasHistogramów->AutoSize = true;
+			this->L_CzasHistogramów->Location = System::Drawing::Point(17, 68);
+			this->L_CzasHistogramów->Name = L"L_CzasHistogramów";
+			this->L_CzasHistogramów->Size = System::Drawing::Size(62, 13);
+			this->L_CzasHistogramów->TabIndex = 2;
+			this->L_CzasHistogramów->Text = L"Histogramy:";
+			// 
+			// L_CzasCpp
+			// 
+			this->L_CzasCpp->AutoSize = true;
+			this->L_CzasCpp->Location = System::Drawing::Point(17, 44);
+			this->L_CzasCpp->Name = L"L_CzasCpp";
+			this->L_CzasCpp->Size = System::Drawing::Size(29, 13);
+			this->L_CzasCpp->TabIndex = 1;
+			this->L_CzasCpp->Text = L"C++:";
+			// 
+			// L_CzasASM
+			// 
+			this->L_CzasASM->AutoSize = true;
+			this->L_CzasASM->Location = System::Drawing::Point(17, 20);
+			this->L_CzasASM->Name = L"L_CzasASM";
+			this->L_CzasASM->Size = System::Drawing::Size(53, 13);
+			this->L_CzasASM->TabIndex = 0;
+			this->L_CzasASM->Text = L"Asembler:";
 			// 
 			// BTN_WygenerujHistogramy
 			// 
@@ -510,7 +576,7 @@ namespace WinForms {
 			this->BTN_WygenerujHistogramy->Cursor = System::Windows::Forms::Cursors::Hand;
 			this->BTN_WygenerujHistogramy->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->BTN_WygenerujHistogramy->ForeColor = System::Drawing::Color::Silver;
-			this->BTN_WygenerujHistogramy->Location = System::Drawing::Point(57, 369);
+			this->BTN_WygenerujHistogramy->Location = System::Drawing::Point(57, 379);
 			this->BTN_WygenerujHistogramy->Margin = System::Windows::Forms::Padding(2);
 			this->BTN_WygenerujHistogramy->Name = L"BTN_WygenerujHistogramy";
 			this->BTN_WygenerujHistogramy->Size = System::Drawing::Size(146, 24);
@@ -533,79 +599,6 @@ namespace WinForms {
 			this->BTN_ZapiszPlik->Text = L"Zapisz";
 			this->BTN_ZapiszPlik->UseVisualStyleBackColor = false;
 			this->BTN_ZapiszPlik->Click += gcnew System::EventHandler(this, &MyForm::BTN_ZapiszPlik_Click);
-
-						/*	CZAS OBLICZEÑ	*/
-
-			// 
-			// G_CzasPracy
-			// 
-			this->G_CzasPracy->Controls->Add(this->L_CzasPracyHistogramy);
-			this->G_CzasPracy->Controls->Add(this->L_CzasPracyCpp);
-			this->G_CzasPracy->Controls->Add(this->L_CzasPracyASM);
-			this->G_CzasPracy->Controls->Add(this->L_CzasHistogramów);
-			this->G_CzasPracy->Controls->Add(this->L_CzasCpp);
-			this->G_CzasPracy->Controls->Add(this->L_CzasASM);
-			this->G_CzasPracy->ForeColor = System::Drawing::Color::Silver;
-			this->G_CzasPracy->Location = System::Drawing::Point(17, 254);
-			this->G_CzasPracy->Margin = System::Windows::Forms::Padding(2);
-			this->G_CzasPracy->Name = L"G_CzasPracy";
-			this->G_CzasPracy->Padding = System::Windows::Forms::Padding(2);
-			this->G_CzasPracy->Size = System::Drawing::Size(223, 94);
-			this->G_CzasPracy->TabIndex = 19;
-			this->G_CzasPracy->TabStop = false;
-			this->G_CzasPracy->Text = L"Czas pracy:";
-			this->G_CzasPracy->Enter += gcnew System::EventHandler(this, &MyForm::G_CzasPracy_Enter);
-			// 
-			// L_CzasASM
-			// 
-			this->L_CzasASM->AutoSize = true;
-			this->L_CzasASM->Location = System::Drawing::Point(17, 15);
-			this->L_CzasASM->Name = L"L_CzasASM";
-			this->L_CzasASM->Size = System::Drawing::Size(53, 13);
-			this->L_CzasASM->TabIndex = 0;
-			this->L_CzasASM->Text = L"Asembler:";
-			// 
-			// L_CzasCpp
-			// 
-			this->L_CzasCpp->AutoSize = true;
-			this->L_CzasCpp->Location = System::Drawing::Point(17, 39);
-			this->L_CzasCpp->Name = L"L_CzasCpp";
-			this->L_CzasCpp->Size = System::Drawing::Size(29, 13);
-			this->L_CzasCpp->TabIndex = 1;
-			this->L_CzasCpp->Text = L"C++:";
-			// 
-			// L_CzasHistogramów
-			// 
-			this->L_CzasHistogramów->AutoSize = true;
-			this->L_CzasHistogramów->Location = System::Drawing::Point(17, 63);
-			this->L_CzasHistogramów->Name = L"L_CzasHistogramów";
-			this->L_CzasHistogramów->Size = System::Drawing::Size(62, 13);
-			this->L_CzasHistogramów->TabIndex = 2;
-			this->L_CzasHistogramów->Text = L"Histogramy:";
-			// 
-			// L_CzasPracyASM
-			// 
-			this->L_CzasPracyASM->AutoSize = true;
-			this->L_CzasPracyASM->Location = System::Drawing::Point(89, 15);
-			this->L_CzasPracyASM->Name = L"L_CzasPracyASM";
-			this->L_CzasPracyASM->Size = System::Drawing::Size(0, 13);
-			this->L_CzasPracyASM->TabIndex = 3;
-			// 
-			// L_CzasPracyCpp
-			// 
-			this->L_CzasPracyCpp->AutoSize = true;
-			this->L_CzasPracyCpp->Location = System::Drawing::Point(89, 39);
-			this->L_CzasPracyCpp->Name = L"L_CzasPracyCpp";
-			this->L_CzasPracyCpp->Size = System::Drawing::Size(0, 13);
-			this->L_CzasPracyCpp->TabIndex = 4;
-			// 
-			// L_CzasPracyHistogramy
-			// 
-			this->L_CzasPracyHistogramy->AutoSize = true;
-			this->L_CzasPracyHistogramy->Location = System::Drawing::Point(89, 63);
-			this->L_CzasPracyHistogramy->Name = L"L_CzasPracyHistogramy";
-			this->L_CzasPracyHistogramy->Size = System::Drawing::Size(0, 13);
-			this->L_CzasPracyHistogramy->TabIndex = 5;
 			// 
 			// MyForm
 			// 
@@ -1021,6 +1014,8 @@ namespace WinForms {
 			}
 		}
 	}
+private: System::Void L_InfoPlikStan_Click(System::Object^  sender, System::EventArgs^  e) {
+}
 };
 }
 
